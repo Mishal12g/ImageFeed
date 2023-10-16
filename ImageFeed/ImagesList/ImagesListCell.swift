@@ -8,7 +8,7 @@
 import UIKit
 
 class ImagesListCell: UITableViewCell {
-
+    
     @IBOutlet weak var imagePoster: UIImageView!
     @IBOutlet var labelDate: UILabel!
     @IBOutlet var buttonLike: UIButton!
@@ -18,11 +18,10 @@ class ImagesListCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         view.clipsToBounds = true
-        view.layer.cornerRadius = 5
-        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-       
+        view.layer.cornerRadius = 16
+        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        
         let gradient = CAGradientLayer()
         gradient.frame = view.bounds
         gradient.colors = [UIColor.ypGradientOne.cgColor, UIColor.ypGradientTwo.cgColor]
