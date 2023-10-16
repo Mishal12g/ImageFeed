@@ -21,6 +21,7 @@ class ImagesListViewController: UIViewController {
         return formatter
     }()
     
+    //MARK: - Overrides methods
     override func viewDidLoad() {
         super.viewDidLoad()
         table.dataSource = self
@@ -28,7 +29,8 @@ class ImagesListViewController: UIViewController {
         table.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
     
-    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+    //MARK: - Privates Methods
+    private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         guard let image = UIImage(named: photosName[indexPath.row]) else { return }
         cell.imagePoster.image = image
         
@@ -45,6 +47,7 @@ class ImagesListViewController: UIViewController {
     }
 }
 
+//MARK: - UITableView Data Source
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         photosName.count
@@ -63,6 +66,7 @@ extension ImagesListViewController: UITableViewDataSource {
     }
 }
 
+//MARK: - UITableView delegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
