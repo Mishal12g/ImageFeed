@@ -8,14 +8,16 @@
 import UIKit
 
 class ImagesListCell: UITableViewCell {
-    
+    //MARK: - IB Outlets
     @IBOutlet weak var imagePoster: UIImageView!
     @IBOutlet var labelDate: UILabel!
     @IBOutlet var buttonLike: UIButton!
     @IBOutlet var view: UIView!
     
+    //MARK: - Public Properties
     static let reuseIdentifier = "ImagesListCell"
     
+    //MARK: - Overrides methods
     override func awakeFromNib() {
         super.awakeFromNib()
         view.clipsToBounds = true
