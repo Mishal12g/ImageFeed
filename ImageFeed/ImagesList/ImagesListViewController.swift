@@ -14,36 +14,12 @@ class ImagesListViewController: UIViewController {
     //MARK: - Privates properties
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
-    
     //MARK: - Overrides methods
     override func viewDidLoad() {
         super.viewDidLoad()
         table.dataSource = self
         table.delegate = self
         table.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-    }
-    
-    //MARK: - Privates Methods
-    private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        guard let image = UIImage(named: photosName[indexPath.row]) else { return }
-        cell.imagePoster.image = image
-        
-        let data = dateFormatter.string(from: Date())
-        cell.labelDate.text = data
-        
-        if indexPath.row % 2 == 0 {
-            guard let image = UIImage(named: "No active") else { return }
-            cell.buttonLike.setImage(image, for: .normal)
-        } else {
-            guard let image = UIImage(named: "Active") else { return }
-            cell.buttonLike.setImage(image, for: .normal)
-        }
     }
 }
 
@@ -60,7 +36,7 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        configCell(for: imageListCell, with: indexPath)
+        imageListCell.configCell(for: imageListCell, with: indexPath, photosName: photosName)
         
         return imageListCell
     }
