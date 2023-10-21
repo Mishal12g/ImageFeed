@@ -13,6 +13,7 @@ class ImagesListViewController: UIViewController {
     
     //MARK: - Privates properties
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
+    private let showSingleImageIdentifier = "ShowSingleImage"
     
     //MARK: - Overrides methods
     override func viewDidLoad() {
@@ -20,7 +21,7 @@ class ImagesListViewController: UIViewController {
         table.dataSource = self
         table.delegate = self
         table.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        table.register(UINib(nibName: "ImagesListCell", bundle: nil), forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
+        table.register(UINib(nibName: showSingleImageIdentifier, bundle: nil), forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
     }
 }
 
@@ -46,7 +47,7 @@ extension ImagesListViewController: UITableViewDataSource {
 //MARK: - UITableView delegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        performSegue(withIdentifier: "ShowSingleImage", sender: indexPath)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -59,6 +60,19 @@ extension ImagesListViewController: UITableViewDelegate {
         let scale = imageViewWidth / imageWidth
         let cellHeight = image.size.height * scale + imageInsets.top + imageInsets.bottom
         return cellHeight
+    }
+}
+
+extension ImagesListViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == showSingleImageIdentifier {
+            let viewController = segue.destination as! SingleImageViewController
+            let indexPath = sender as! IndexPath
+            let image = UIImage(named: photosName[indexPath.row])
+            viewController.image = image
+        } else {
+            super.prepare(for: segue, sender: sender)
+        }
     }
 }
 

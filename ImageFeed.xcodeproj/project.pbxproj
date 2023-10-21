@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8794BAA02AE2B61C00EC5E6E /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8794BA9F2AE2B61C00EC5E6E /* ProfileViewController.swift */; };
+		8794BAA22AE2DAED00EC5E6E /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8794BAA12AE2DAED00EC5E6E /* SingleImageViewController.swift */; };
 		87BC74252AD02C2C009C2EE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BC74242AD02C2C009C2EE9 /* AppDelegate.swift */; };
 		87BC74272AD02C2C009C2EE9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BC74262AD02C2C009C2EE9 /* SceneDelegate.swift */; };
 		87BC74292AD02C2C009C2EE9 /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BC74282AD02C2C009C2EE9 /* ImagesListViewController.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		8794BA9F2AE2B61C00EC5E6E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		8794BAA12AE2DAED00EC5E6E /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		87BC74212AD02C2C009C2EE9 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87BC74242AD02C2C009C2EE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		87BC74262AD02C2C009C2EE9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				87BC742A2AD02C2C009C2EE9 /* Main.storyboard */,
 				87FA3A372ADEFD8C00C7A3B1 /* ImagesListCell.xib */,
 				8794BA9F2AE2B61C00EC5E6E /* ProfileViewController.swift */,
+				8794BAA12AE2DAED00EC5E6E /* SingleImageViewController.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 				87BC74252AD02C2C009C2EE9 /* AppDelegate.swift in Sources */,
 				8794BAA02AE2B61C00EC5E6E /* ProfileViewController.swift in Sources */,
 				87F483DF2AD9577A0094BAAA /* ImagesListCell.swift in Sources */,
+				8794BAA22AE2DAED00EC5E6E /* SingleImageViewController.swift in Sources */,
 				87BC74272AD02C2C009C2EE9 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,7 +334,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AMLNY4CPQ6;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ImageFeed/Info.plist;
+				INFOPLIST_FILE = ImageFeed/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -361,7 +365,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = AMLNY4CPQ6;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ImageFeed/Info.plist;
+				INFOPLIST_FILE = ImageFeed/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
