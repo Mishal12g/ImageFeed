@@ -152,30 +152,73 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="6dV-60-Ply">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eEa-ap-yaA">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                            </imageView>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="6dV-60-Ply">
+                                        <rect key="frame" x="96.666666666666686" y="20" width="200" height="812"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="6dV-60-Ply" firstAttribute="centerY" secondItem="eEa-ap-yaA" secondAttribute="centerY" id="Gse-M8-Nhg"/>
+                                    <constraint firstAttribute="bottom" secondItem="6dV-60-Ply" secondAttribute="bottom" constant="20" id="RYH-wo-MwO"/>
+                                    <constraint firstItem="6dV-60-Ply" firstAttribute="top" secondItem="eEa-ap-yaA" secondAttribute="top" constant="20" id="pDq-89-j8s"/>
+                                    <constraint firstItem="6dV-60-Ply" firstAttribute="centerX" secondItem="eEa-ap-yaA" secondAttribute="centerX" id="rLu-4d-0ve"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="ZVM-vK-0Zp"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="fKR-na-BEj"/>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fff-qb-XHk">
+                                <rect key="frame" x="8" y="11" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="1ak-hq-HK8"/>
+                                    <constraint firstAttribute="height" constant="24" id="Ysj-Zo-vRf"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="Back">
+                                    <color key="titleShadowColor" name="YP White"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBackButton:" destination="0uX-Mt-TIg" eventType="touchUpInside" id="14T-cp-GDB"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ij7-px-Ekl">
+                                <rect key="frame" x="171.66666666666666" y="785" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="OPt-lt-2FG"/>
+                                    <constraint firstAttribute="width" constant="50" id="Tvk-Me-nN0"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="Download"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hbE-zG-fRL"/>
                         <constraints>
-                            <constraint firstItem="6dV-60-Ply" firstAttribute="trailing" secondItem="hbE-zG-fRL" secondAttribute="trailing" id="XfI-Wo-iW1"/>
-                            <constraint firstItem="6dV-60-Ply" firstAttribute="leading" secondItem="hbE-zG-fRL" secondAttribute="leading" id="Xzy-4t-DoP"/>
-                            <constraint firstAttribute="bottom" secondItem="6dV-60-Ply" secondAttribute="bottom" id="flR-kt-gTM"/>
-                            <constraint firstItem="6dV-60-Ply" firstAttribute="top" secondItem="zZ2-Os-DRS" secondAttribute="top" id="qbH-ZE-4hJ"/>
+                            <constraint firstItem="fff-qb-XHk" firstAttribute="top" secondItem="hbE-zG-fRL" secondAttribute="top" constant="11" id="6Mj-M7-x1f"/>
+                            <constraint firstItem="ij7-px-Ekl" firstAttribute="centerX" secondItem="zZ2-Os-DRS" secondAttribute="centerX" id="BUO-ni-fM3"/>
+                            <constraint firstItem="fff-qb-XHk" firstAttribute="leading" secondItem="hbE-zG-fRL" secondAttribute="leading" constant="8" id="MTu-e9-6eT"/>
+                            <constraint firstItem="eEa-ap-yaA" firstAttribute="top" secondItem="zZ2-Os-DRS" secondAttribute="top" id="Mwz-cO-cmh"/>
+                            <constraint firstAttribute="bottom" secondItem="eEa-ap-yaA" secondAttribute="bottom" id="PGn-Tq-HXa"/>
+                            <constraint firstItem="hbE-zG-fRL" firstAttribute="bottom" secondItem="ij7-px-Ekl" secondAttribute="bottom" constant="17" id="Veu-n1-BsW"/>
+                            <constraint firstAttribute="trailing" secondItem="eEa-ap-yaA" secondAttribute="trailing" id="l54-im-EqD"/>
+                            <constraint firstItem="eEa-ap-yaA" firstAttribute="leading" secondItem="zZ2-Os-DRS" secondAttribute="leading" id="oVC-LF-F0h"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="jOn-4j-jvt"/>
                     <connections>
                         <outlet property="imageView" destination="6dV-60-Ply" id="gNL-EA-Dmu"/>
+                        <outlet property="scrollView" destination="eEa-ap-yaA" id="xg7-N8-DeB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qiq-Bl-WYS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1782" y="-2"/>
+            <point key="canvasLocation" x="1780.916030534351" y="-2.1126760563380285"/>
         </scene>
     </scenes>
     <resources>
         <image name="2" width="200" height="150"/>
+        <image name="Back" width="24" height="24"/>
+        <image name="Download" width="50.333332061767578" height="50"/>
         <image name="Exit" width="44" height="44"/>
         <image name="avatar" width="70" height="70"/>
         <image name="tab_editorial_active" width="30" height="30"/>

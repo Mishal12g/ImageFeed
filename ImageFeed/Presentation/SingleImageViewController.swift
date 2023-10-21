@@ -8,6 +8,8 @@
 import UIKit
 
 class SingleImageViewController: UIViewController {
+    @IBOutlet var scrollView: UIScrollView!
+    
     var image: UIImage! {
         didSet {
             guard isViewLoaded else { return }
@@ -20,5 +22,8 @@ class SingleImageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         imageView.image = image
+    }
+    @IBAction func onBackButton(_ sender: Any) {
+        dismiss(animated: true)
     }
 }
