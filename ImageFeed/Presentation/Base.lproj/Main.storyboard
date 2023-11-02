@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oH9-og-hf1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oH9-og-hf1">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -71,74 +71,10 @@
                     <view key="view" contentMode="scaleToFill" id="cUx-Ha-hY7">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="LPO-jb-Mye">
-                                <rect key="frame" x="16" y="91" width="70" height="70"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="ylp-Fh-1Rk"/>
-                                    <constraint firstAttribute="width" constant="70" id="z1Z-er-xqg"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="35"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J8F-9v-ea0">
-                                <rect key="frame" x="333" y="104" width="44" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="44" id="6xC-q2-gfH"/>
-                                    <constraint firstAttribute="height" constant="44" id="TvW-7M-N9s"/>
-                                </constraints>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="Exit"/>
-                                <connections>
-                                    <action selector="onExitButton:" destination="sng-3D-3mr" eventType="touchUpInside" id="eUQ-bp-zWf"/>
-                                </connections>
-                            </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="E7J-vT-nSF">
-                                <rect key="frame" x="16" y="169" width="361" height="67.666666666666686"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Екатерина Новикова" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ljt-Ll-Oth">
-                                        <rect key="frame" x="0.0" y="0.0" width="361" height="20.333333333333332"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <color key="textColor" name="YP White"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@ekaterina_nov" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Wd-1H-lOt">
-                                        <rect key="frame" x="0.0" y="28.333333333333346" width="361" height="15.666666666666668"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <color key="textColor" name="YP Gray"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello, world!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2M-yI-qx2">
-                                        <rect key="frame" x="0.0" y="52" width="361" height="15.666666666666671"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <color key="textColor" name="YP White"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                            </stackView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Saa-EK-Zhv"/>
                         <color key="backgroundColor" name="YP Black"/>
-                        <constraints>
-                            <constraint firstItem="Saa-EK-Zhv" firstAttribute="trailing" secondItem="J8F-9v-ea0" secondAttribute="trailing" constant="16" id="0E6-gc-Da2"/>
-                            <constraint firstItem="E7J-vT-nSF" firstAttribute="top" secondItem="LPO-jb-Mye" secondAttribute="bottom" constant="8" id="7Y0-jS-7ge"/>
-                            <constraint firstItem="LPO-jb-Mye" firstAttribute="top" secondItem="Saa-EK-Zhv" secondAttribute="top" constant="32" id="CBN-Db-UUi"/>
-                            <constraint firstItem="E7J-vT-nSF" firstAttribute="leading" secondItem="Saa-EK-Zhv" secondAttribute="leading" constant="16" id="P90-tq-AEU"/>
-                            <constraint firstItem="J8F-9v-ea0" firstAttribute="top" secondItem="Saa-EK-Zhv" secondAttribute="top" constant="45" id="hhU-36-TWp"/>
-                            <constraint firstItem="LPO-jb-Mye" firstAttribute="leading" secondItem="Saa-EK-Zhv" secondAttribute="leading" constant="16" id="oh1-1u-u4O"/>
-                            <constraint firstItem="Saa-EK-Zhv" firstAttribute="trailing" secondItem="E7J-vT-nSF" secondAttribute="trailing" constant="16" id="w84-Wb-fF4"/>
-                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" image="tab_profile_active" id="txD-Fp-0tZ"/>
-                    <connections>
-                        <outlet property="fullname" destination="ljt-Ll-Oth" id="w77-SO-DcS"/>
-                        <outlet property="imageAvatar" destination="LPO-jb-Mye" id="QGx-Z7-mib"/>
-                        <outlet property="mailLabel" destination="0Wd-1H-lOt" id="z7M-t2-bdb"/>
-                        <outlet property="statusLabel" destination="h2M-yI-qx2" id="qYz-2f-BZQ"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="feR-hZ-RAy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -155,15 +91,15 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eEa-ap-yaA">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="6dV-60-Ply">
-                                        <rect key="frame" x="96.666666666666686" y="20" width="200" height="812"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="2" translatesAutoresizingMaskIntoConstraints="NO" id="6dV-60-Ply">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="6dV-60-Ply" firstAttribute="centerY" secondItem="eEa-ap-yaA" secondAttribute="centerY" id="Gse-M8-Nhg"/>
-                                    <constraint firstAttribute="bottom" secondItem="6dV-60-Ply" secondAttribute="bottom" constant="20" id="RYH-wo-MwO"/>
-                                    <constraint firstItem="6dV-60-Ply" firstAttribute="top" secondItem="eEa-ap-yaA" secondAttribute="top" constant="20" id="pDq-89-j8s"/>
-                                    <constraint firstItem="6dV-60-Ply" firstAttribute="centerX" secondItem="eEa-ap-yaA" secondAttribute="centerX" id="rLu-4d-0ve"/>
+                                    <constraint firstItem="6dV-60-Ply" firstAttribute="leading" secondItem="fKR-na-BEj" secondAttribute="leading" id="OoO-EZ-td6"/>
+                                    <constraint firstItem="fKR-na-BEj" firstAttribute="trailing" secondItem="6dV-60-Ply" secondAttribute="trailing" id="SdE-kR-j2P"/>
+                                    <constraint firstItem="fKR-na-BEj" firstAttribute="bottom" secondItem="6dV-60-Ply" secondAttribute="bottom" id="dMw-Eg-K2F"/>
+                                    <constraint firstItem="6dV-60-Ply" firstAttribute="top" secondItem="fKR-na-BEj" secondAttribute="top" id="lFj-v4-LBX"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="ZVM-vK-0Zp"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="fKR-na-BEj"/>
@@ -190,6 +126,9 @@
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="Download"/>
+                                <connections>
+                                    <action selector="didTapShareButton:" destination="0uX-Mt-TIg" eventType="touchUpInside" id="PDQ-6e-OTS"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hbE-zG-fRL"/>
@@ -219,15 +158,10 @@
         <image name="2" width="200" height="150"/>
         <image name="Back" width="24" height="24"/>
         <image name="Download" width="50.333332061767578" height="50"/>
-        <image name="Exit" width="44" height="44"/>
-        <image name="avatar" width="70" height="70"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <image name="tab_profile_active" width="30" height="30"/>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="YP Gray">
-            <color red="0.68199998140335083" green="0.68599998950958252" blue="0.70599997043609619" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="YP White">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
