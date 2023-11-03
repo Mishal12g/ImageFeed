@@ -69,10 +69,12 @@ class ProfileViewController: UIViewController {
                                      exitButton.heightAnchor.constraint(equalToConstant: 22),
                                      fullName.topAnchor.constraint(equalTo: avatarImage.bottomAnchor, constant: 8),
                                      fullName.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+                                     fullName.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
                                      mailLabel.topAnchor.constraint(equalTo: fullName.bottomAnchor, constant: 8),
                                      mailLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
                                      statusLabel.topAnchor.constraint(equalTo: mailLabel.bottomAnchor, constant: 8),
-                                     statusLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
+                                     statusLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+                                     statusLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
                                     ])
     }
     
