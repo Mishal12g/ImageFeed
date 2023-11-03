@@ -20,8 +20,8 @@ class ImagesListCell: UITableViewCell {
     //MARK: - Privates Properties
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
+        formatter.dateFormat = "dd MMMM yyyy"
+        formatter.locale = Locale(identifier: "ru_RU")
         return formatter
     }()
     
@@ -46,12 +46,13 @@ class ImagesListCell: UITableViewCell {
         let data = dateFormatter.string(from: Date())
         cell.labelDate.text = data
         
-        if indexPath.row % 2 == 0 {
-            guard let image = UIImage(named: "No active") else { return }
-            cell.buttonLike.setImage(image, for: .normal)
-        } else {
-            guard let image = UIImage(named: "Active") else { return }
-            cell.buttonLike.setImage(image, for: .normal)
-        }
+        let likeImage: UIImage?
+               if indexPath.row % 2 == 0 {
+                   likeImage = UIImage(named: "No active")
+               } else {
+                   likeImage = UIImage(named: "Active")
+               }
+               guard let likeImage = likeImage else { return }
+               cell.buttonLike.setImage(likeImage, for: .normal)
     }
 }
