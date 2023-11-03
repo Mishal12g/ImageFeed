@@ -56,6 +56,7 @@ class ProfileViewController: UIViewController {
         statusLabel.text = "Hello, world!"
         statusLabel.textColor = .ypWhite
         statusLabel.font = UIFont.systemFont(ofSize: 13)
+        statusLabel.numberOfLines = 0
         
         //MARK: - Constraints settings
         NSLayoutConstraint.activate([avatarImage.heightAnchor.constraint(equalToConstant: 70),
