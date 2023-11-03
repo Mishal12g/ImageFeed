@@ -64,7 +64,7 @@
             </objects>
             <point key="canvasLocation" x="932.06106870229007" y="-2.1126760563380285"/>
         </scene>
-        <!--Item-->
+        <!--Profile View Controller-->
         <scene sceneID="zOh-IN-i01">
             <objects>
                 <viewController id="sng-3D-3mr" customClass="ProfileViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
@@ -74,7 +74,7 @@
                         <viewLayoutGuide key="safeArea" id="Saa-EK-Zhv"/>
                         <color key="backgroundColor" name="YP Black"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" image="tab_profile_active" id="txD-Fp-0tZ"/>
+                    <tabBarItem key="tabBarItem" title="" image="tab_profile_active" id="txD-Fp-0tZ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="feR-hZ-RAy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
