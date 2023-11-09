@@ -79,6 +79,10 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="eLo-ON-CxV">
+                                <rect key="frame" x="0.0" y="35" width="393" height="4"/>
+                                <color key="progressTintColor" name="YP Background"/>
+                            </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xfZ-ja-kaV">
                                 <rect key="frame" x="8" y="11" width="24" height="24"/>
                                 <constraints>
@@ -97,13 +101,17 @@
                         <constraints>
                             <constraint firstItem="xfZ-ja-kaV" firstAttribute="top" secondItem="H3b-NT-xYO" secondAttribute="top" constant="11" id="7JO-Nu-MWy"/>
                             <constraint firstItem="xfZ-ja-kaV" firstAttribute="leading" secondItem="H3b-NT-xYO" secondAttribute="leading" constant="8" id="BFp-Aw-ctj"/>
+                            <constraint firstItem="H3b-NT-xYO" firstAttribute="trailing" secondItem="eLo-ON-CxV" secondAttribute="trailing" id="IJC-PQ-RpA"/>
                             <constraint firstItem="J7O-GA-bm9" firstAttribute="leading" secondItem="H3b-NT-xYO" secondAttribute="leading" id="IVQ-EK-ozS"/>
+                            <constraint firstItem="eLo-ON-CxV" firstAttribute="top" secondItem="xfZ-ja-kaV" secondAttribute="bottom" id="MjW-Ni-7ZE"/>
                             <constraint firstItem="H3b-NT-xYO" firstAttribute="trailing" secondItem="J7O-GA-bm9" secondAttribute="trailing" id="QH9-rN-NtL"/>
                             <constraint firstItem="H3b-NT-xYO" firstAttribute="bottom" secondItem="J7O-GA-bm9" secondAttribute="bottom" id="iFc-nt-nZx"/>
+                            <constraint firstItem="eLo-ON-CxV" firstAttribute="leading" secondItem="H3b-NT-xYO" secondAttribute="leading" id="s6Y-eJ-FxR"/>
                             <constraint firstItem="J7O-GA-bm9" firstAttribute="top" secondItem="H3b-NT-xYO" secondAttribute="top" id="sPH-Lk-KHg"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="progressView" destination="eLo-ON-CxV" id="ep8-kh-PoQ"/>
                         <outlet property="webView" destination="J7O-GA-bm9" id="sIJ-JH-G6h"/>
                     </connections>
                 </viewController>
@@ -282,6 +290,9 @@
         <image name="nav_back_button" width="24" height="24"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <image name="tab_profile_active" width="30" height="30"/>
+        <namedColor name="YP Background">
+            <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

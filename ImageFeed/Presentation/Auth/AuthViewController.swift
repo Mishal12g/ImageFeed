@@ -12,7 +12,7 @@ protocol WebViewViewControllerDelegate {
     func webViewViewControllerDidCancel(_ vc: WebViewViewController)
 }
 
-class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController {
     let identifierSegue = "ShowWebView"
     
     override func viewDidLoad() {
