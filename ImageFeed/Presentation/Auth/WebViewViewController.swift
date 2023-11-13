@@ -22,7 +22,6 @@ final class WebViewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = AuthViewController()
-        webView.navigationDelegate = self
         loadWebView()
     }
     
@@ -59,6 +58,8 @@ final class WebViewViewController: UIViewController {
 extension WebViewViewController {
     //MARK: - Privates Methods
     private func loadWebView() {
+        webView.navigationDelegate = self
+        
         guard var urlComponents = URLComponents(string: UnsplashAuthorizeURLString) else { return }
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: AccessKey),
@@ -78,6 +79,7 @@ extension WebViewViewController {
     }
 }
 
+//MARK: - WKNavigationDelegate
 extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationAction: WKNavigationAction,
@@ -85,8 +87,7 @@ extension WebViewViewController: WKNavigationDelegate {
         if let code = fetchCode(url: navigationAction.request.url) {
             delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             delegate?.webViewViewControllerDidCancel(self)
-            //TODO: - save token in storage.
-            print(OAuth2TokenStorage().token)
+
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)

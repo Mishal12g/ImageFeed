@@ -10,9 +10,12 @@ import UIKit
 
 
 final class AuthViewController: UIViewController {
-    let identifierSegue = "ShowWebView"
-    let tokenStorage = OAuth2TokenStorage()
-    let oauthService = OAuth2Service()
+    //MARK: - Private properties
+    private let identifierSegue = "ShowWebView"
+    private let tokenStorage = OAuth2TokenStorage()
+    private let oauthService = OAuth2Service()
+    
+    //MARK: - Overrides methods
     override func viewDidLoad() {
         super.viewDidLoad()
     }

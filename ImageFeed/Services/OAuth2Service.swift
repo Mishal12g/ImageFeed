@@ -7,13 +7,8 @@
 
 import Foundation
 
-enum NetworkError: Error {
-    case invalidResponse
-    case invalidStatusCode(Int)
-}
-
 class OAuth2Service {
-    
+    //MARK: - Public methods
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         DispatchQueue.global().sync {
             
@@ -73,3 +68,8 @@ class OAuth2Service {
     }
 }
 
+//MARK: - Enums
+enum NetworkError: Error {
+    case invalidResponse
+    case invalidStatusCode(Int)
+}
