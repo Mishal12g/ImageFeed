@@ -48,6 +48,7 @@ extension SplashViewController {
     }
 }
 
+//MARK: - AuthViewControllerDelegate
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController( didAuthenticateWithCode code: String) {
         dismiss(animated: true) { [weak self] in
