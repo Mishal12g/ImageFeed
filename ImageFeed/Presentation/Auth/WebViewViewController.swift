@@ -26,7 +26,6 @@ final class WebViewViewController: UIViewController {
     //MARK: - Overrides methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        delegate = AuthViewController()
         loadWebView()
     }
     
