@@ -9,8 +9,8 @@ import UIKit
 
 class SingleImageViewController: UIViewController {
     //MARK: - IB Outlets
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var imageView: UIImageView!
     
     //MARK: - Public properties
     var image: UIImage! {
