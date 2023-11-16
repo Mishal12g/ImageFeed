@@ -64,9 +64,3 @@ final class OAuth2Service {
         }
     }
 }
-
-//MARK: - Enums
-enum NetworkError: Error {
-    case invalidResponse
-    case invalidStatusCode(Int)
-}
