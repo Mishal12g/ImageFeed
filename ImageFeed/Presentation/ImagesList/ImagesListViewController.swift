@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
     //MARK: - IB outlets
     @IBOutlet private var table: UITableView!
     

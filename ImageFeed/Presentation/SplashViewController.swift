@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SplashViewController: UIViewController {
+final class SplashViewController: UIViewController {
     private let oauth2Service = OAuth2Service()
     private let storage = OAuth2TokenStorage()
     private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImagesListCell: UITableViewCell {
+final class ImagesListCell: UITableViewCell {
     //MARK: - IB Outlets
     @IBOutlet private var imagePoster: UIImageView!
     @IBOutlet private var labelDate: UILabel!

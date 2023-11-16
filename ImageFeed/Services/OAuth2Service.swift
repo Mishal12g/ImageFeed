@@ -7,7 +7,7 @@
 
 import Foundation
 
-class OAuth2Service {
+final class OAuth2Service {
     //MARK: - Public methods
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token") else { return }

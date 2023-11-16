@@ -61,9 +61,9 @@ final class WebViewViewController: UIViewController {
     }
 }
 
-extension WebViewViewController {
+private extension WebViewViewController {
     //MARK: - Privates Methods
-    private func loadWebView() {
+    func loadWebView() {
         webView.navigationDelegate = self
         
         guard var urlComponents = URLComponents(string: UnsplashAuthorizeURLString) else { return }
@@ -79,7 +79,7 @@ extension WebViewViewController {
         }
     }
     
-    private func updateProgress() {
+    func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
@@ -93,7 +93,7 @@ extension WebViewViewController: WKNavigationDelegate {
         if let code = fetchCode(url: navigationAction.request.url) {
             delegate?.webViewViewController(didAuthenticateWithCode: code)
             delegate?.webViewViewControllerDidCancel(self)
-
+            
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
