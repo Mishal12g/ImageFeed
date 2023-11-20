@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class ImagesListViewController: UIViewController {
     //MARK: - IB outlets
