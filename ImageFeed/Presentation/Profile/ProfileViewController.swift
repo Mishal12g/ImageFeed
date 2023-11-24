@@ -8,11 +8,13 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
+    private let profileService = ProfileService()
+    private let tokenStorage = OAuth2TokenStorage()
+    
     //MARK: - Privates methods
     private let mailLabel: UILabel = {
         let Label = UILabel()
         Label.translatesAutoresizingMaskIntoConstraints = false
-        Label.text = "@ekaterina_nov"
         Label.textColor = .ypGray
         Label.font = UIFont.systemFont(ofSize: 13)
         
@@ -39,7 +41,6 @@ final class ProfileViewController: UIViewController {
     private let fullName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Екатерина Новикова"
         label.textColor = .ypWhite
         label.font = UIFont.boldSystemFont(ofSize: 23)
         
@@ -49,7 +50,6 @@ final class ProfileViewController: UIViewController {
     private let statusLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Hello, world!"
         label.textColor = .ypWhite
         label.font = UIFont.systemFont(ofSize: 13)
         label.numberOfLines = 0
@@ -62,7 +62,18 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         addSubviews()
         applyConstraints()
-        
+        profileService.fetchProfile(token: tokenStorage.token ?? "") { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let profile):
+                self.fullName.text = profile.name
+                self.statusLabel.text = profile.bio
+                self.mailLabel.text = profile.loginName
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     //MARK: - Privates methods
