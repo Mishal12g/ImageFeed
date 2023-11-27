@@ -22,7 +22,8 @@ final class ImagesListViewController: UIViewController {
         table.dataSource = self
         table.delegate = self
         table.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        table.register(UINib(nibName: ImagesListCell.reuseIdentifier, bundle: nil), forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
+        table.register(UINib(nibName: ImagesListCell.reuseIdentifier, bundle: nil), 
+                       forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
     }
 }
 

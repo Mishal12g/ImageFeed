@@ -10,6 +10,7 @@ import UIKit
 final class ProfileViewController: UIViewController {
     private let profileService = ProfileService()
     private let tokenStorage = OAuth2TokenStorage()
+    private let profile = ProfileSingleton.shared.profile
     
     //MARK: - Privates methods
     private let mailLabel: UILabel = {
@@ -62,18 +63,19 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         addSubviews()
         applyConstraints()
-        profileService.fetchProfile(token: tokenStorage.token ?? "") { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let profile):
-                self.fullName.text = profile.name
-                self.statusLabel.text = profile.bio
-                self.mailLabel.text = profile.loginName
-            case .failure(let error):
-                print(error)
-            }
-        }
+//        profileService.fetchProfile(token: tokenStorage.token ?? "") { [weak self] result in
+//            guard let self = self else { return }
+//            
+//            switch result {
+//            case .success(let profile):
+//                
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+        self.fullName.text = profile?.name
+        self.statusLabel.text = profile?.bio
+        self.mailLabel.text = profile?.loginName
     }
     
     //MARK: - Privates methods
@@ -116,4 +118,11 @@ final class ProfileViewController: UIViewController {
     @objc private func onExitButton() {
         
     }
+}
+
+class ProfileSingleton {
+    static let shared = ProfileSingleton()
+    var profile: ProfileViewModel?
+    
+    private init() {}
 }
