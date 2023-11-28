@@ -8,11 +8,12 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-    private let profileService = ProfileService()
+    //MARK: - Privates properties
+    private let profileService = ProfileServiceImpl()
     private let tokenStorage = OAuth2TokenStorage()
-    private let profile = ProfileSingleton.shared.profile
+    private let profileSingleton = ProfileServiceImpl.shared.profile
+    private var profileImageServiceObserver: NSObjectProtocol?
     
-    //MARK: - Privates methods
     private let mailLabel: UILabel = {
         let Label = UILabel()
         Label.translatesAutoresizingMaskIntoConstraints = false
@@ -63,22 +64,24 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         addSubviews()
         applyConstraints()
-//        profileService.fetchProfile(token: tokenStorage.token ?? "") { [weak self] result in
-//            guard let self = self else { return }
-//            
-//            switch result {
-//            case .success(let profile):
-//                
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-        self.fullName.text = profile?.name
-        self.statusLabel.text = profile?.bio
-        self.mailLabel.text = profile?.loginName
+        setProfile()
+        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageServiceImpl.DidhangeNotification,
+                                                                             object: nil,
+                                                                             queue: .main) { [weak self] _ in
+            guard let self = self else { return }
+            self.updateAvatar()
+        }
+        updateAvatar()
     }
     
     //MARK: - Privates methods
+    private func updateAvatar() {
+        guard let profileImageUrl = ProfileImageServiceImpl.shared.avatarUrl,
+              let url = URL(string: profileImageUrl) else { return }
+        
+        print(url, "URLLLLL")
+    }
+    
     private func addSubviews(){
         view.addSubview(mailLabel)
         view.addSubview(avatarImage)
@@ -115,14 +118,20 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
+    private func setProfile() {
+        self.fullName.text = profileSingleton?.name
+        self.statusLabel.text = profileSingleton?.bio
+        self.mailLabel.text = profileSingleton?.loginName
+    }
+    
     @objc private func onExitButton() {
         
     }
 }
 
-class ProfileSingleton {
-    static let shared = ProfileSingleton()
-    var profile: ProfileViewModel?
-    
-    private init() {}
-}
+//class ProfileSingleton {
+//    static let shared = ProfileSingleton()
+//    var profile: ProfileViewModel?
+//    
+//    private init() {}
+//}

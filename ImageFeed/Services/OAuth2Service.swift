@@ -7,7 +7,11 @@
 
 import Foundation
 
-final class OAuth2Service {
+protocol OAuth2Service {
+    func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void)
+}
+
+final class OAuth2ServiceImpl: OAuth2Service {
     private let urlSession = URLSession.shared
     
     private var task: URLSessionTask?

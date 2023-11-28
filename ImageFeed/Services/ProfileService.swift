@@ -7,10 +7,18 @@
 
 import Foundation
 
-final class ProfileService {
+protocol ProfileService {
+    func fetchProfile(token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void)
+    var profile: ProfileViewModel? { get }
+}
+
+final class ProfileServiceImpl: ProfileService {
+    static let shared = ProfileServiceImpl()
+    private(set) var profile: ProfileViewModel?
+    
     let urlSession = URLSession.shared
     
-    func fetchProfile(token: String, completion: @escaping (Result<ProfileViewModel, Error>) -> Void) {
+    func fetchProfile(token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
         guard let url =  URL(string: "https://api.unsplash.com/me") else { return }
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
@@ -36,11 +44,13 @@ final class ProfileService {
                 
                 do {
                     let profile = try JSONDecoder().decode(ProfileResult.self, from: Data(jsonString.utf8))
-                    let model = ProfileViewModel(name: "\(profile.firstName) \(profile.lastName)",
-                                                 loginName: "@\(profile.username)",
-                                                 bio: profile.bio)
+                    let profileModel = ProfileViewModel(name: "\(profile.firstName) \(profile.lastName)",
+                                                        loginName: "@\(profile.username)",
+                                                        bio: profile.bio)
+                    ProfileServiceImpl.shared.profile = profileModel
+                    
                     DispatchQueue.main.async {
-                        completion(.success(model))
+                        completion(.success(profile))
                     }
                 } catch {
                     DispatchQueue.main.async {
