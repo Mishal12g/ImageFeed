@@ -39,3 +39,9 @@ extension URLSession {
         return task
     }
 }
+
+private enum NetworkError: Error {
+    case emptyData
+    case invalidResponse
+    case invalidStatusCode(Int)
+}
