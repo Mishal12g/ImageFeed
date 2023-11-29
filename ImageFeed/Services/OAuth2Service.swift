@@ -12,9 +12,9 @@ protocol OAuth2Service {
 }
 
 final class OAuth2ServiceImpl: OAuth2Service {
+    //MARK: - Privates properties
     private let session = URLSession.shared
     
-    //    private var task: URLSessionTask?
     private var lastCode: String?
     
     //MARK: - Public methods
@@ -34,6 +34,7 @@ final class OAuth2ServiceImpl: OAuth2Service {
     }
 }
 
+//MARK: - Privates methods
 private func makeRequest(code: String) -> URLRequest {
     guard
         let url = URL(string: "https://unsplash.com/oauth/token"),

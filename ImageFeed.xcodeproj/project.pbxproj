@@ -30,6 +30,8 @@
 		87D595BD2B15DDE600820633 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D595BC2B15DDE600820633 /* ProfileImageService.swift */; };
 		87D595BF2B15DF9400820633 /* UserResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D595BE2B15DF9400820633 /* UserResult.swift */; };
 		87D595C42B17494B00820633 /* UrlSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D595C32B17494B00820633 /* UrlSession+Extensions.swift */; };
+		87D595C62B175AE600820633 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D595C52B175AE600820633 /* AlertPresenter.swift */; };
+		87D595C82B175BFB00820633 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D595C72B175BFB00820633 /* AlertModel.swift */; };
 		87F483DF2AD9577A0094BAAA /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F483DE2AD957790094BAAA /* ImagesListCell.swift */; };
 		87FA3A382ADEFD8C00C7A3B1 /* ImagesListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 87FA3A372ADEFD8C00C7A3B1 /* ImagesListCell.xib */; };
 /* End PBXBuildFile section */
@@ -59,6 +61,8 @@
 		87D595BC2B15DDE600820633 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		87D595BE2B15DF9400820633 /* UserResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResult.swift; sourceTree = "<group>"; };
 		87D595C32B17494B00820633 /* UrlSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UrlSession+Extensions.swift"; sourceTree = "<group>"; };
+		87D595C52B175AE600820633 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		87D595C72B175BFB00820633 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		87F483DE2AD957790094BAAA /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		87FA3A372ADEFD8C00C7A3B1 /* ImagesListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImagesListCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,6 +111,7 @@
 				87009A2E2B108F950039B854 /* ProfileResult.swift */,
 				87009A302B1091800039B854 /* ProfileViewModel.swift */,
 				87D595BE2B15DF9400820633 /* UserResult.swift */,
+				87D595C72B175BFB00820633 /* AlertModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -142,6 +147,7 @@
 				8721D2CD2AFA7A6C002B1365 /* SingleImage */,
 				87D142BC2B04DAAC00D27C1C /* SplashViewController.swift */,
 				87009A2A2B1087420039B854 /* UIBlockingProgressHUD.swift */,
+				87D595C52B175AE600820633 /* AlertPresenter.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -281,6 +287,7 @@
 				877A17412AFE29FB00300599 /* OAuth2Service.swift in Sources */,
 				87D142BD2B04DAAC00D27C1C /* SplashViewController.swift in Sources */,
 				87D595C42B17494B00820633 /* UrlSession+Extensions.swift in Sources */,
+				87D595C62B175AE600820633 /* AlertPresenter.swift in Sources */,
 				87009A2F2B108F950039B854 /* ProfileResult.swift in Sources */,
 				877A173F2AFE283F00300599 /* OAuthTokenResponseBody.swift in Sources */,
 				87009A2B2B1087420039B854 /* UIBlockingProgressHUD.swift in Sources */,
@@ -292,6 +299,7 @@
 				8794BAA22AE2DAED00EC5E6E /* SingleImageViewController.swift in Sources */,
 				87BED2F22AFBA42A00FD31D3 /* WebViewViewController.swift in Sources */,
 				877A17462B024E3200300599 /* OAuth2TokenStorage.swift in Sources */,
+				87D595C82B175BFB00820633 /* AlertModel.swift in Sources */,
 				87BC74272AD02C2C009C2EE9 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

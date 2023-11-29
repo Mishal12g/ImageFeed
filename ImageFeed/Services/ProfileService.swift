@@ -24,7 +24,7 @@ final class ProfileServiceImpl: ProfileService {
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         let task = session.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
-            guard let self = self else { return }
+            guard let _ = self else { return }
             switch result {
             case .success(let profile):
                 let profileModel = ProfileViewModel(name: "\(profile.firstName) \(profile.lastName)",

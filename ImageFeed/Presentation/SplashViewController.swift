@@ -9,6 +9,7 @@ import UIKit
 import ProgressHUD
 
 final class SplashViewController: UIViewController {
+    //MARK: - Privates properties
     private let oauth2Service = OAuth2ServiceImpl()
     private let profileService = ProfileServiceImpl()
     private let storage = OAuth2TokenStorage()
@@ -16,6 +17,9 @@ final class SplashViewController: UIViewController {
     private let showImagesListSegue = "ShowImagesList"
     private let profileImageService = ProfileImageServiceImpl.shared
     
+    private var alert: AlertDelegate?
+    
+    //MARK: - Overrides methods
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -25,16 +29,9 @@ final class SplashViewController: UIViewController {
             performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
         }
     }
-    
-    private func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
-            .instantiateViewController(withIdentifier: "TabBarViewController")
-        window.rootViewController = tabBarController
-    }
-    
 }
 
+//MARK: - for methods
 extension SplashViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
@@ -43,11 +40,19 @@ extension SplashViewController {
                 let authViewController = navigationController.viewControllers[0] as? AuthViewController else {
                 fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)")
             }
-            
+            alert = AlertPresenter(delegate: authViewController)
             authViewController.delegate = self
         } else {
             super.prepare(for: segue, sender: sender)
         }
+    }
+    
+    //MARK: - Privates methods
+    private func switchToTabBarController() {
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        let tabBarController = UIStoryboard(name: "Main", bundle: .main)
+            .instantiateViewController(withIdentifier: "TabBarViewController")
+        window.rootViewController = tabBarController
     }
 }
 
@@ -72,6 +77,11 @@ extension SplashViewController: AuthViewControllerDelegate {
                 UIBlockingProgressHUD.dismiss()
             case .failure(let error):
                 print(error)
+                let model = AlertModel(title: "Что-то пошло не так(",
+                                       message: "Не удалось войти в систему",
+                                       buttonText: "Ок") {}
+                alert?.show(model: model)
+                
                 UIBlockingProgressHUD.dismiss()
                 break
             }
