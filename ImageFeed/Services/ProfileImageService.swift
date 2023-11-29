@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ProfileImageService {
-    func fetchProfileImageURL(_ userName: String, completion: @escaping (Result<String, Error>) -> Void)
+    func fetchProfileImageURL(_ userName: String, completion: @escaping (Result<UserResult, Error>) -> Void)
     var avatarUrl: String? { get }
 }
 
@@ -19,7 +19,7 @@ final class ProfileImageServiceImpl: ProfileImageService {
     private let session = URLSession.shared
     var avatarUrl: String?
     
-    func fetchProfileImageURL(_ userName: String, completion: @escaping (Result<String, Error>) -> Void) {
+    func fetchProfileImageURL(_ userName: String, completion: @escaping (Result<UserResult, Error>) -> Void) {
         guard let url = URL(string: "https://api.unsplash.com/users/\(userName)"),
               let token = storage.token else { return }
         
@@ -27,54 +27,18 @@ final class ProfileImageServiceImpl: ProfileImageService {
         
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization" )
         
-        let task = session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
-            }
+        let task = session.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
+            guard let self = self else { return }
             
-            guard let response = response as? HTTPURLResponse else {
-                DispatchQueue.main.async {
-                    completion(.failure(NetworkError.invalidResponse))
-                }
-                return
-            }
-            
-            if response.statusCode < 200 || response.statusCode >= 300 {
-                DispatchQueue.main.async {
-                    completion(.failure(NetworkError.invalidStatusCode(response.statusCode)))
-                }
-                return
-            }
-            
-            do {
-                guard let data = data else {
-                    DispatchQueue.main.async {
-                        completion(.failure(NetworkError.emptyData))
-                    }
-                    return
-                }
-                
-                let user = try JSONDecoder().decode(UserResult.self, from: data)
-                self.avatarUrl = user.profileImage.small
-                guard let avatarUrl = self.avatarUrl else { return }
-                
-                DispatchQueue.main.async {
-                    completion(.success(avatarUrl))
-                    NotificationCenter.default.post(name: ProfileImageServiceImpl.DidhangeNotification,
-                                                    object: self,
-                                                    userInfo: ["URL": avatarUrl])
-
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    completion(.failure(NetworkError.emptyData))
-                }
-                return
+            switch result {
+            case .success(let urlResult):
+                self.avatarUrl = urlResult.profileImage.small
+                completion(.success(urlResult))
+            case .failure(let error):
+                completion(.failure (error))
             }
         }
+        
         task.resume()
     }
 }

@@ -16,52 +16,24 @@ final class ProfileServiceImpl: ProfileService {
     static let shared = ProfileServiceImpl()
     private(set) var profile: ProfileViewModel?
     
-    let urlSession = URLSession.shared
+    let session = URLSession.shared
     
     func fetchProfile(token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
         guard let url =  URL(string: "https://api.unsplash.com/me") else { return }
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        let task = urlSession.dataTask(with: request) { data, response, error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                DispatchQueue.main.async {
-                    completion(.failure(NetworkError.invalidResponse))
-                }
-                return
-            }
-            
-            if 200..<300 ~= httpResponse.statusCode {
-                guard let data = data,
-                      let jsonString = String(data: data, encoding: .utf8) else { return }
-                
-                do {
-                    let profile = try JSONDecoder().decode(ProfileResult.self, from: Data(jsonString.utf8))
-                    let profileModel = ProfileViewModel(name: "\(profile.firstName) \(profile.lastName)",
-                                                        loginName: "@\(profile.username)",
-                                                        bio: profile.bio)
-                    ProfileServiceImpl.shared.profile = profileModel
-                    
-                    DispatchQueue.main.async {
-                        completion(.success(profile))
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        completion(.failure(error))
-                    }
-                }
-                
-            } else {
-                DispatchQueue.main.async {
-                    completion(.failure(NetworkError.invalidStatusCode(httpResponse.statusCode)))
-                }
+        let task = session.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let profile):
+                let profileModel = ProfileViewModel(name: "\(profile.firstName) \(profile.lastName)",
+                                                    loginName: "@\(profile.username)",
+                                                    bio: profile.bio)
+                ProfileServiceImpl.shared.profile = profileModel
+                completion(.success(profile))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
         

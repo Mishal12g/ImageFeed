@@ -128,10 +128,3 @@ final class ProfileViewController: UIViewController {
         
     }
 }
-
-//class ProfileSingleton {
-//    static let shared = ProfileSingleton()
-//    var profile: ProfileViewModel?
-//    
-//    private init() {}
-//}

@@ -8,67 +8,28 @@
 import Foundation
 
 protocol OAuth2Service {
-    func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void)
+    func fetchAuthToken(code: String, completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void)
 }
 
 final class OAuth2ServiceImpl: OAuth2Service {
-    private let urlSession = URLSession.shared
+    private let session = URLSession.shared
     
-    private var task: URLSessionTask?
+    //    private var task: URLSessionTask?
     private var lastCode: String?
     
     //MARK: - Public methods
-    func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        assert(Thread.isMainThread)
-        
-        if lastCode == code { return }
-        task?.cancel()
-        lastCode = code
+    func fetchAuthToken(code: String, completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) {
         
         let request = makeRequest(code: code)
-        
-        let task = urlSession.dataTask(with: request) { data, response, error in
-            if let error = error {
-                DispatchQueue.main.sync {
-                    completion(.failure(error))
-                }
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                DispatchQueue.main.sync {
-                    completion(.failure(NetworkError.invalidResponse))
-                }
-                return
-            }
-            
-            if 200..<300 ~= httpResponse.statusCode {
-                if let data = data,
-                   let jsonString = String(data: data, encoding: .utf8) {
-                    do {
-                        let authResponse = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: Data(jsonString.utf8))
-                        let accessToken = authResponse.accessToken
-                        
-                        DispatchQueue.main.sync {
-                            completion(.success(accessToken))
-                            self.task = nil
-                            if error != nil {
-                                self.lastCode = nil
-                            }
-                        }
-                    } catch {
-                        DispatchQueue.main.sync {
-                            completion(.failure(error))
-                        }
-                    }
-                }
-            } else {
-                DispatchQueue.main.sync {
-                    completion(.failure(NetworkError.invalidStatusCode(httpResponse.statusCode)))
-                }
+        let task = session.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let _ = self else { return }
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
-        self.task = task
         task.resume()
     }
 }

@@ -66,9 +66,9 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             
             switch result {
-            case .success(let accessToken):
-                self.storage.token = accessToken
-                self.fetchProfile(accessToken)
+            case .success(let authBody):
+                self.storage.token = authBody.accessToken
+                self.fetchProfile(authBody.accessToken)
                 UIBlockingProgressHUD.dismiss()
             case .failure(let error):
                 print(error)
