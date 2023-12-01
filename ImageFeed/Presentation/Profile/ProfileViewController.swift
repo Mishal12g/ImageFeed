@@ -63,6 +63,7 @@ final class ProfileViewController: UIViewController {
     //MARK: - Overrides methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .ypBlack
         addSubviews()
         applyConstraints()
         setProfile()

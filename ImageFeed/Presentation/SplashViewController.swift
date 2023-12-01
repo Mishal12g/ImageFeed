@@ -14,10 +14,17 @@ final class SplashViewController: UIViewController {
     private let profileService = ProfileServiceImpl()
     private let storage = OAuth2TokenStorage()
     private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
-    private let showImagesListSegue = "ShowImagesList"
+
     private let profileImageService = ProfileImageServiceImpl.shared
     
     private var alert: AlertDelegate?
+    private var splashView: UIImageView = {
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 76 , height: 75))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "Splash screen")
+        
+        return imageView
+    }()
     
     //MARK: - Overrides methods
     override func viewDidAppear(_ animated: Bool) {
@@ -26,33 +33,55 @@ final class SplashViewController: UIViewController {
         if storage.token != nil {
             fetchProfile(storage.token ?? "")
         } else {
-            performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
+            showAuthViewController()
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addSubview(splashView)
+        view.backgroundColor = .ypBlack
+        addConstraints()
     }
 }
 
 //MARK: - for methods
 extension SplashViewController {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
-            guard
-                let navigationController = segue.destination as? UINavigationController,
-                let authViewController = navigationController.viewControllers[0] as? AuthViewController else {
-                fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)")
-            }
-            alert = AlertPresenter(delegate: authViewController)
-            authViewController.delegate = self
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
+//            guard
+//                let navigationController = segue.destination as? UINavigationController,
+//                let authViewController = navigationController.viewControllers[0] as? AuthViewController else {
+//                fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)")
+//            }
+//            alert = AlertPresenter(delegate: authViewController)
+//            authViewController.delegate = self
+//        } else {
+//            super.prepare(for: segue, sender: sender)
+//        }
+//    }
     
     //MARK: - Privates methods
+    private func showAuthViewController() {
+        let storyBoard = UIStoryboard(name: "Main", bundle: .main)
+        guard let authViewController = storyBoard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else { return }
+        authViewController.delegate = self
+        authViewController.modalPresentationStyle = .fullScreen
+        self.present(authViewController, animated: true)
+    }
+    
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
         window.rootViewController = tabBarController
+    }
+    
+    private func addConstraints() {
+        NSLayoutConstraint.activate([
+            splashView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            splashView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
     }
 }
 
