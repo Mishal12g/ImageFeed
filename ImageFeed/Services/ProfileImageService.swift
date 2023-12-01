@@ -32,7 +32,7 @@ final class ProfileImageServiceImpl: ProfileImageService {
             
             switch result {
             case .success(let urlResult):
-                self.avatarUrl = urlResult.profileImage.small
+                self.avatarUrl = urlResult.profileImage.large
                 completion(.success(urlResult))
             case .failure(let error):
                 completion(.failure (error))

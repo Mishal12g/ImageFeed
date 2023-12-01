@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     //MARK: - Privates properties
@@ -25,7 +26,7 @@ final class ProfileViewController: UIViewController {
     
     private let avatarImage: UIImageView = {
         let avatar = UIImage(named: "avatar")
-        let avatarImage = UIImageView(image: avatar)
+        let avatarImage = UIImageView()
         avatarImage.translatesAutoresizingMaskIntoConstraints = false
         
         return avatarImage
@@ -79,7 +80,13 @@ final class ProfileViewController: UIViewController {
         guard let profileImageUrl = ProfileImageServiceImpl.shared.avatarUrl,
               let url = URL(string: profileImageUrl) else { return }
         
-        print(url, "URLLLLL")
+        let processor = RoundCornerImageProcessor(cornerRadius: 70)
+        
+        avatarImage.kf.indicatorType = .activity
+        avatarImage.kf.setImage(with: url,
+                                placeholder: UIImage(named: "Person"),
+                                options: [.processor(processor),
+                                          .cacheSerializer(FormatIndicatedCacheSerializer.png)])
     }
     
     private func addSubviews(){
