@@ -10,7 +10,6 @@ import Kingfisher
 
 final class ProfileViewController: UIViewController {
     //MARK: - Privates properties
-    private let profileService = ProfileServiceImpl()
     private let tokenStorage = OAuth2TokenStorage()
     private let profileSingleton = ProfileServiceImpl.shared.profile
     private var profileImageServiceObserver: NSObjectProtocol?
@@ -67,7 +66,7 @@ final class ProfileViewController: UIViewController {
         addSubviews()
         applyConstraints()
         setProfile()
-        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageServiceImpl.DidhangeNotification,
+        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageServiceImpl.didhangeNotification,
                                                                              object: nil,
                                                                              queue: .main) { [weak self] _ in
             guard let self = self else { return }
@@ -127,9 +126,9 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setProfile() {
-        self.fullName.text = profileSingleton?.name
-        self.statusLabel.text = profileSingleton?.bio
-        self.mailLabel.text = profileSingleton?.loginName
+        fullName.text = profileSingleton?.name
+        statusLabel.text = profileSingleton?.bio
+        mailLabel.text = profileSingleton?.loginName
     }
     
     @objc private func onExitButton() {

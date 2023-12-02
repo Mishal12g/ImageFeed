@@ -13,8 +13,7 @@ final class SplashViewController: UIViewController {
     private let oauth2Service = OAuth2ServiceImpl()
     private let profileService = ProfileServiceImpl()
     private let storage = OAuth2TokenStorage()
-    private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
-
+    
     private let profileImageService = ProfileImageServiceImpl.shared
     
     private var alert: AlertDelegate?
@@ -30,8 +29,8 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if storage.token != nil {
-            fetchProfile(storage.token ?? "")
+        if let token = storage.token {
+            fetchProfile(token)
         } else {
             showAuthViewController()
         }
@@ -47,19 +46,6 @@ final class SplashViewController: UIViewController {
 
 //MARK: - for methods
 extension SplashViewController {
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
-//            guard
-//                let navigationController = segue.destination as? UINavigationController,
-//                let authViewController = navigationController.viewControllers[0] as? AuthViewController else {
-//                fatalError("Failed to prepare for \(ShowAuthenticationScreenSegueIdentifier)")
-//            }
-//            alert = AlertPresenter(delegate: authViewController)
-//            authViewController.delegate = self
-//        } else {
-//            super.prepare(for: segue, sender: sender)
-//        }
-//    }
     
     //MARK: - Privates methods
     private func showAuthViewController() {
@@ -103,7 +89,6 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success(let authBody):
                 self.storage.token = authBody.accessToken
                 self.fetchProfile(authBody.accessToken)
-                UIBlockingProgressHUD.dismiss()
             case .failure(let error):
                 print(error)
                 let model = AlertModel(title: "Что-то пошло не так(",

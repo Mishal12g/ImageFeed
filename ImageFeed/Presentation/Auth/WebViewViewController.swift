@@ -30,6 +30,7 @@ final class WebViewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadWebView()
+        progressView.progress = 0
         estimatedProgressObservation = webView.observe(\.estimatedProgress,
                          options: [],
                          changeHandler: { [weak self] _,_  in

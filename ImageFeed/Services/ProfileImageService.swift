@@ -13,7 +13,7 @@ protocol ProfileImageService {
 }
 
 final class ProfileImageServiceImpl: ProfileImageService {
-    static let DidhangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    static let didhangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     static let shared = ProfileImageServiceImpl()
     private let storage = OAuth2TokenStorage()
     private let session = URLSession.shared
