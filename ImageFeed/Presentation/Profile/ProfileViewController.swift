@@ -6,13 +6,17 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
-    //MARK: - Privates methods
+    //MARK: - Privates properties
+    private let tokenStorage = OAuth2TokenStorage()
+    private let profileSingleton = ProfileServiceImpl.shared.profile
+    private var profileImageServiceObserver: NSObjectProtocol?
+    
     private let mailLabel: UILabel = {
         let Label = UILabel()
         Label.translatesAutoresizingMaskIntoConstraints = false
-        Label.text = "@ekaterina_nov"
         Label.textColor = .ypGray
         Label.font = UIFont.systemFont(ofSize: 13)
         
@@ -21,7 +25,7 @@ final class ProfileViewController: UIViewController {
     
     private let avatarImage: UIImageView = {
         let avatar = UIImage(named: "avatar")
-        let avatarImage = UIImageView(image: avatar)
+        let avatarImage = UIImageView()
         avatarImage.translatesAutoresizingMaskIntoConstraints = false
         
         return avatarImage
@@ -39,7 +43,6 @@ final class ProfileViewController: UIViewController {
     private let fullName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Екатерина Новикова"
         label.textColor = .ypWhite
         label.font = UIFont.boldSystemFont(ofSize: 23)
         
@@ -49,7 +52,6 @@ final class ProfileViewController: UIViewController {
     private let statusLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Hello, world!"
         label.textColor = .ypWhite
         label.font = UIFont.systemFont(ofSize: 13)
         label.numberOfLines = 0
@@ -60,12 +62,33 @@ final class ProfileViewController: UIViewController {
     //MARK: - Overrides methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .ypBlack
         addSubviews()
         applyConstraints()
-        
+        setProfile()
+        profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageServiceImpl.didhangeNotification,
+                                                                             object: nil,
+                                                                             queue: .main) { [weak self] _ in
+            guard let self = self else { return }
+            self.updateAvatar()
+        }
+        updateAvatar()
     }
     
     //MARK: - Privates methods
+    private func updateAvatar() {
+        guard let profileImageUrl = ProfileImageServiceImpl.shared.avatarUrl,
+              let url = URL(string: profileImageUrl) else { return }
+        
+        let processor = RoundCornerImageProcessor(cornerRadius: 70)
+        
+        avatarImage.kf.indicatorType = .activity
+        avatarImage.kf.setImage(with: url,
+                                placeholder: UIImage(named: "Person"),
+                                options: [.processor(processor),
+                                          .cacheSerializer(FormatIndicatedCacheSerializer.png)])
+    }
+    
     private func addSubviews(){
         view.addSubview(mailLabel)
         view.addSubview(avatarImage)
@@ -100,6 +123,12 @@ final class ProfileViewController: UIViewController {
             statusLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             statusLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
+    }
+    
+    private func setProfile() {
+        fullName.text = profileSingleton?.name
+        statusLabel.text = profileSingleton?.bio
+        mailLabel.text = profileSingleton?.loginName
     }
     
     @objc private func onExitButton() {
