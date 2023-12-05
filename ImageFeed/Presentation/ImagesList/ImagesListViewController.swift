@@ -15,6 +15,7 @@ final class ImagesListViewController: UIViewController {
     //MARK: - Privates properties
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     private let showSingleImageIdentifier = "ShowSingleImage"
+    private var imagesListServiceObserver: NSObjectProtocol?
     
     //MARK: - Overrides methods
     override func viewDidLoad() {
@@ -43,6 +44,10 @@ extension ImagesListViewController: UITableViewDataSource {
         imageListCell.configCell(for: imageListCell, with: indexPath, photosName: photosName)
         
         return imageListCell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
     }
 }
 

@@ -18,6 +18,8 @@ final class ProfileServiceImpl: ProfileService {
     
     let session = URLSession.shared
     
+    private init() {}
+    
     func fetchProfile(token: String, completion: @escaping (Result<ProfileResult, Error>) -> Void) {
         guard let url =  URL(string: "https://api.unsplash.com/me") else { return }
         var request = URLRequest(url: url)

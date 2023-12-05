@@ -19,6 +19,8 @@ final class ProfileImageServiceImpl: ProfileImageService {
     private let session = URLSession.shared
     var avatarUrl: String?
     
+    private init() {}
+    
     func fetchProfileImageURL(_ userName: String, completion: @escaping (Result<UserResult, Error>) -> Void) {
         guard let url = URL(string: "https://api.unsplash.com/users/\(userName)"),
               let token = storage.token else { return }
@@ -32,6 +34,11 @@ final class ProfileImageServiceImpl: ProfileImageService {
             
             switch result {
             case .success(let urlResult):
+                NotificationCenter.default
+                    .post(
+                        name: ProfileImageServiceImpl.didhangeNotification,
+                        object: self,
+                        userInfo: ["URL": self.avatarUrl])
                 self.avatarUrl = urlResult.profileImage.large
                 completion(.success(urlResult))
             case .failure(let error):
