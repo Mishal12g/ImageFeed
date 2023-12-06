@@ -8,38 +8,41 @@
 import Foundation
 
 class ImagesListService {
-    let session = URLSession.shared
-    private (set) var photos: [Photo] = []
+    private (set) var photos: [PhotoResult] = []
     private var lastLoadedPage: Int?
-    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+    private var task: URLSessionTask?
     
-    func fetchPhotosNextPage(token: String, completion: @escaping (Result<Photo, Error>) -> Void) {
+    static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
+    static let shared = ImagesListService()
+    
+    private init() {}
+    
+    func fetchPhotosNextPage() {
         let nextPage = lastLoadedPage == nil ? 1 : (lastLoadedPage ?? 1) + 1
-        guard let url = URL(string: "https://api.unsplash.com/photos"),
-              var urlComponents = URLComponents(string: url.absoluteString) else { return }
+        guard var urlComponents = URLComponents(string: "https://api.unsplash.com/photos") else { return }
         
         urlComponents.queryItems = [
-        URLQueryItem(name: "page", value: "\(nextPage)"),
-        URLQueryItem(name: "per_page", value: "10")
+            URLQueryItem(name: "page", value: "\(nextPage)"),
+            URLQueryItem(name: "per_page", value: "10"),
+            URLQueryItem(name: "client_id", value: "\(AccessKey)"),
         ]
+        guard let url = urlComponents.url else { return }
+        let request = URLRequest(url: url)
         
-        var request = URLRequest(url: url)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization" )
+        task?.cancel()
         
-        let task = session.objectTask(for: request) { [weak self] (result: Result<Photo, Error>) in
-            guard let self = self else { return }
-            
+        task = URLSession.shared.objectTask(for: request) { (result: Result<[PhotoResult], Error>) in
             switch result {
-            case .success(let photo):
-                photos.append(photo)
+            case .success(let photosResult):
+                self.photos += photosResult
                 NotificationCenter.default.post(name: ImagesListService.didChangeNotification,
                                                 object: self,
-                                                userInfo: ["Photos" : photos])
+                                                userInfo: ["Photos" : self.photos])
             case .failure(let error):
                 print(error)
             }
         }
         
-        task.resume()
+        task?.resume()
     }
 }

@@ -24,7 +24,7 @@ extension URLSession {
                         let result = try decoder.decode(T.self, from: data)
                         fulfillCompletionOnMainThread(.success(result))
                     } catch {
-                        fulfillCompletionOnMainThread(.failure(NetworkError.emptyData))
+                        fulfillCompletionOnMainThread(.failure(error))
                     }
                 } else {
                     fulfillCompletionOnMainThread(.failure(NetworkError.invalidStatusCode(statusCode)))
@@ -40,7 +40,6 @@ extension URLSession {
     }
     
     private enum NetworkError: Error {
-        case emptyData
         case invalidResponse
         case invalidStatusCode(Int)
     }

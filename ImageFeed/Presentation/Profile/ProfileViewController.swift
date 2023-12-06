@@ -132,6 +132,8 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func onExitButton() {
-        
+        print("hello")
+        ImagesListService.shared.fetchPhotosNextPage()
+        print(ImagesListService.shared.photos.count)
     }
 }
