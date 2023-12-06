@@ -9,18 +9,25 @@ import Foundation
 
 class ImagesListService {
     private (set) var photos: [PhotoResult] = []
-    private var lastLoadedPage: Int?
+    private var lastLoadedPage: Int? = nil
     private var task: URLSessionTask?
     
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     static let shared = ImagesListService()
+    var nextPage: Int {
+        if lastLoadedPage == nil {
+            lastLoadedPage = 1
+            return lastLoadedPage ?? 1
+        } else {
+            lastLoadedPage! += 1
+            return lastLoadedPage ?? 1
+        }
+    }
     
     private init() {}
     
     func fetchPhotosNextPage() {
-        let nextPage = lastLoadedPage == nil ? 1 : (lastLoadedPage ?? 1) + 1
         guard var urlComponents = URLComponents(string: "https://api.unsplash.com/photos") else { return }
-        
         urlComponents.queryItems = [
             URLQueryItem(name: "page", value: "\(nextPage)"),
             URLQueryItem(name: "per_page", value: "10"),
