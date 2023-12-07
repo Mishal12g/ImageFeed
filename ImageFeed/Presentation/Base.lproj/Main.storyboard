@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -163,7 +162,7 @@
                     </tabBarItem>
                     <navigationItem key="navigationItem" id="sqh-gu-r0n"/>
                     <connections>
-                        <outlet property="table" destination="kbQ-3n-oVQ" id="Y76-4H-EFw"/>
+                        <outlet property="tableView" destination="kbQ-3n-oVQ" id="Y76-4H-EFw"/>
                         <segue destination="0uX-Mt-TIg" kind="presentation" identifier="ShowSingleImage" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="cOC-WO-d0v"/>
                     </connections>
                 </viewController>
@@ -247,7 +246,6 @@
         <!--Navigation Controller-->
         <scene sceneID="ulq-8B-Z4d">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cEQ-PM-xuV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="VAA-9g-Vyw" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="agh-ce-Xxn"/>
@@ -260,6 +258,7 @@
                         <segue destination="pvs-HG-yeT" kind="relationship" relationship="rootViewController" id="L5g-YG-pD7"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cEQ-PM-xuV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="931" y="-732"/>
         </scene>

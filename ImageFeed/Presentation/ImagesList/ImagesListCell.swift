@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class ImagesListCell: UITableViewCell {
     //MARK: - IB Outlets
-    @IBOutlet private weak var imagePoster: UIImageView!
+    @IBOutlet weak var imagePoster: UIImageView!
     @IBOutlet private weak var labelDate: UILabel!
     @IBOutlet private weak var buttonLike: UIButton!
     @IBOutlet private weak var view: UIView!
@@ -38,21 +39,26 @@ final class ImagesListCell: UITableViewCell {
         view.layer.insertSublayer(gradient, at: 0)
     }
     
-    //MARK: - Public methods
-    func configCell(for cell: ImagesListCell, with indexPath: IndexPath, photosName: [String]) {
-        guard let image = UIImage(named: photosName[indexPath.row]) else { return }
-        cell.imagePoster.image = image
-        
-        let data = dateFormatter.string(from: Date())
-        cell.labelDate.text = data
-        
-        let likeImage: UIImage?
-               if indexPath.row % 2 == 0 {
-                   likeImage = UIImage(named: "No active")
-               } else {
-                   likeImage = UIImage(named: "Active")
-               }
-               guard let likeImage = likeImage else { return }
-               cell.buttonLike.setImage(likeImage, for: .normal)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imagePoster.kf.cancelDownloadTask()
     }
+    
+    //MARK: - Public methods
+//    func configCell(for cell: ImagesListCell, with indexPath: IndexPath, photosName: [String]) {
+//        guard let image = UIImage(named: photosName[indexPath.row]) else { return }
+//        cell.imagePoster.image = image
+//        
+//        let date = dateFormatter.string(from: Date())
+//        cell.labelDate.text = date
+//        
+//        let likeImage: UIImage?
+//               if indexPath.row % 2 == 0 {
+//                   likeImage = UIImage(named: "No active")
+//               } else {
+//                   likeImage = UIImage(named: "Active")
+//               }
+//               guard let likeImage = likeImage else { return }
+//               cell.buttonLike.setImage(likeImage, for: .normal)
+//    }
 }

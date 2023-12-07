@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SingleImageViewController: UIViewController {
     //MARK: - IB Outlets
@@ -13,20 +14,21 @@ class SingleImageViewController: UIViewController {
     @IBOutlet private weak var imageView: UIImageView!
     
     //MARK: - Public properties
-    var image: UIImage! {
-        didSet {
-            guard isViewLoaded else { return }
-            imageView.image = image
-        }
-    }
+    var imageUrl: URL?
+    
+    var image: UIImage?
     
     //MARK: - Overrides methods
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
-        imageView.image = image
-        rescaleAndCenterImageInScrollView(image: image)
+        
+        imageView.kf.setImage(with: imageUrl,
+                              placeholder: UIImage(named: "loadImage")
+        )
+        
+        rescaleAndCenterImageInScrollView(image: imageView.image ?? UIImage() )
     }
     
     //MARK: - IB Actions
@@ -35,7 +37,7 @@ class SingleImageViewController: UIViewController {
     }
     
     @IBAction private func didTapShareButton(_ sender: UIButton) {
-        guard let image = image else { return }
+        guard let image = imageView.image else { return }
         let share = UIActivityViewController(
             activityItems: [image],
             applicationActivities: nil

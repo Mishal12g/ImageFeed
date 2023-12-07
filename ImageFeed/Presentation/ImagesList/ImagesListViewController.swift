@@ -7,31 +7,58 @@
 
 import UIKit
 import ProgressHUD
+import Kingfisher
 
 final class ImagesListViewController: UIViewController {
     //MARK: - IB outlets
-    @IBOutlet private weak var table: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     
     //MARK: - Privates properties
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     private let showSingleImageIdentifier = "ShowSingleImage"
     private var imagesListServiceObserver: NSObjectProtocol?
+    private let service = ImagesListService.shared
+    private var photos: [PhotoResult] = []
     
     //MARK: - Overrides methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        table.dataSource = self
-        table.delegate = self
-        table.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
-        table.register(UINib(nibName: ImagesListCell.reuseIdentifier, bundle: nil), 
-                       forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        tableView.register(UINib(nibName: ImagesListCell.reuseIdentifier, bundle: nil),
+                           forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
+        service.fetchPhotosNextPage()
+        imagesListServiceObserver = NotificationCenter.default.addObserver(forName: ImagesListService.didChangeNotification,
+                                                                           object: nil,
+                                                                           queue: .main) { [weak self] _ in
+            guard let self = self else { return }
+            self.updateTableViewAnimated()
+        }
+    }
+}
+
+//MARK: - For methods
+extension ImagesListViewController {
+    func updateTableViewAnimated() {
+        let oldCount = photos.count
+        let newCount = service.photos.count
+        
+        if oldCount != newCount {
+            let indexPath = (oldCount..<newCount).map { i in
+                IndexPath(row: i, section: 0)
+            }
+            photos = service.photos
+            
+            tableView.insertRows(at: indexPath, with: .automatic)
+        }
     }
 }
 
 //MARK: - UITableView Data Source
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        photosName.count
+        photos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -41,13 +68,34 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        imageListCell.configCell(for: imageListCell, with: indexPath, photosName: photosName)
+        //        imageListCell.configCell(for: imageListCell, with: indexPath, photosName: photosName)
+        let photo = service.photos[indexPath.row]
+        let model = PhotoViewModel(id: photo.id,
+                                   size: CGSize(width: photo.width, height: photo.height),
+                                   createdAt: Date(),
+                                   welcomeDescription: photo.description,
+                                   thumbImageURL: photo.urls.thumb,
+                                   largeImageURL: photo.urls.full,
+                                   isLiked: photo.isLiked)
         
+        if let url = URL(string: model.largeImageURL) {
+            let processor = RoundCornerImageProcessor(cornerRadius: 16)
+            imageListCell.imagePoster.kf.setImage(with: url,
+                                                  placeholder: UIImage(named: "loadImage"),
+                                                  options: [.processor(processor)]
+            ) {[weak self] _ in
+                guard let self = self else { return }
+                
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        }
         return imageListCell
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
+        if indexPath.row + 1 == photos.count {
+            service.fetchPhotosNextPage()
+        }
     }
 }
 
@@ -78,7 +126,10 @@ extension ImagesListViewController {
             super.prepare(for: segue, sender: sender)
             return
         }
-        let image = UIImage(named: photosName[indexPath.row])
-        viewController.image = image
-    }
+        
+        let photo = photos[indexPath.row]
+        
+            guard let url = URL(string: photo.urls.full) else { return }
+            viewController.imageUrl = url
+        }
 }
