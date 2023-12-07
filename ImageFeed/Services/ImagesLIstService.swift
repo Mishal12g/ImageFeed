@@ -11,7 +11,7 @@ class ImagesListService {
     private (set) var photos: [PhotoResult] = []
     private var lastLoadedPage: Int? = nil
     private var task: URLSessionTask?
-    
+    private var isFetching = false
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     static let shared = ImagesListService()
     var nextPage: Int {
@@ -27,6 +27,12 @@ class ImagesListService {
     private init() {}
     
     func fetchPhotosNextPage() {
+        guard !isFetching else {
+                return
+            }
+        
+        isFetching = true
+        
         guard var urlComponents = URLComponents(string: "https://api.unsplash.com/photos") else { return }
         urlComponents.queryItems = [
             URLQueryItem(name: "page", value: "\(nextPage)"),
@@ -39,6 +45,10 @@ class ImagesListService {
         task?.cancel()
         
         task = URLSession.shared.objectTask(for: request) { (result: Result<[PhotoResult], Error>) in
+            defer {
+                        self.isFetching = false
+                    }
+            
             switch result {
             case .success(let photosResult):
                 self.photos += photosResult

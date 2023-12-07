@@ -69,7 +69,7 @@ extension ImagesListViewController: UITableViewDataSource {
         }
         
         //        imageListCell.configCell(for: imageListCell, with: indexPath, photosName: photosName)
-        let photo = service.photos[indexPath.row]
+        let photo = photos[indexPath.row]
         let model = PhotoViewModel(id: photo.id,
                                    size: CGSize(width: photo.width, height: photo.height),
                                    createdAt: Date(),
@@ -79,7 +79,7 @@ extension ImagesListViewController: UITableViewDataSource {
                                    isLiked: photo.isLiked)
         
         if let url = URL(string: model.largeImageURL) {
-            let processor = RoundCornerImageProcessor(cornerRadius: 16)
+            let processor = RoundCornerImageProcessor(cornerRadius: 25)
             imageListCell.imagePoster.kf.setImage(with: url,
                                                   placeholder: UIImage(named: "loadImage"),
                                                   options: [.processor(processor)]
@@ -129,7 +129,7 @@ extension ImagesListViewController {
         
         let photo = photos[indexPath.row]
         
-            guard let url = URL(string: photo.urls.full) else { return }
-            viewController.imageUrl = url
-        }
+        guard let url = URL(string: photo.urls.full) else { return }
+        viewController.imageUrl = url
+    }
 }
