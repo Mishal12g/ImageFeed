@@ -21,11 +21,11 @@ class SingleImageViewController: UIViewController {
     //MARK: - Overrides methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .ypBlack
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         UIBlockingProgressHUD.show()
-        imageView.kf.setImage(with: imageUrl,
-                              placeholder: UIImage(named: "loadImage")) { [weak self] res in
+        imageView.kf.setImage(with: imageUrl) { [weak self] res in
             
             UIBlockingProgressHUD.dismiss()
             guard let self = self else { return }
