@@ -23,12 +23,19 @@ class SingleImageViewController: UIViewController {
         super.viewDidLoad()
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
-        
+        UIBlockingProgressHUD.show()
         imageView.kf.setImage(with: imageUrl,
-                              placeholder: UIImage(named: "loadImage")
-        )
-        
-        rescaleAndCenterImageInScrollView(image: imageView.image ?? UIImage() )
+                              placeholder: UIImage(named: "loadImage")) { [weak self] res in
+            
+            UIBlockingProgressHUD.dismiss()
+            guard let self = self else { return }
+            switch res {
+            case .success(let imageResult):
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     //MARK: - IB Actions

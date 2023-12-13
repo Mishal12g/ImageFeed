@@ -8,23 +8,22 @@
 import UIKit
 import Kingfisher
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imageListCellDidTapLike(_ cell: ImagesListCell)
+}
+
 final class ImagesListCell: UITableViewCell {
     //MARK: - IB Outlets
     @IBOutlet weak var imagePoster: UIImageView!
-    @IBOutlet private weak var labelDate: UILabel!
-    @IBOutlet private weak var buttonLike: UIButton!
+    @IBOutlet weak var labelDate: UILabel!
+    @IBOutlet weak var buttonLike: UIButton!
     @IBOutlet private weak var view: UIView!
     
     //MARK: - Public Properties
-    static let reuseIdentifier = "ImagesListCell"
+    weak var delegate: ImagesListCellDelegate?
     
-    //MARK: - Privates Properties
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd MMMM yyyy"
-        formatter.locale = Locale(identifier: "ru_RU")
-        return formatter
-    }()
+    //MARK: - Static Properties
+    static let reuseIdentifier = "ImagesListCell"
     
     //MARK: - Overrides methods
     override func awakeFromNib() {
@@ -44,21 +43,18 @@ final class ImagesListCell: UITableViewCell {
         imagePoster.kf.cancelDownloadTask()
     }
     
-    //MARK: - Public methods
-//    func configCell(for cell: ImagesListCell, with indexPath: IndexPath, photosName: [String]) {
-//        guard let image = UIImage(named: photosName[indexPath.row]) else { return }
-//        cell.imagePoster.image = image
-//        
-//        let date = dateFormatter.string(from: Date())
-//        cell.labelDate.text = date
-//        
-//        let likeImage: UIImage?
-//               if indexPath.row % 2 == 0 {
-//                   likeImage = UIImage(named: "No active")
-//               } else {
-//                   likeImage = UIImage(named: "Active")
-//               }
-//               guard let likeImage = likeImage else { return }
-//               cell.buttonLike.setImage(likeImage, for: .normal)
-//    }
+    @IBAction private func likeButtonClicked() {
+        delegate?.imageListCellDidTapLike(self)
+    }
 }
+
+extension ImagesListCell {
+    func setIsLiked(_ isLiked: Bool) {
+        if !isLiked  {
+            buttonLike.setImage(UIImage(named: "No active"), for: .normal)
+        } else {
+            buttonLike.setImage(UIImage(named: "Active"), for: .normal)
+        }
+    }
+}
+

@@ -20,6 +20,14 @@ final class ImagesListViewController: UIViewController {
     private let service = ImagesListService.shared
     private var photos: [PhotoResult] = []
     
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM yyyy"
+        formatter.locale = Locale(identifier: "ru_RU")
+        return formatter
+    }()
+    
+    
     //MARK: - Overrides methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +47,22 @@ final class ImagesListViewController: UIViewController {
 }
 
 //MARK: - For methods
-extension ImagesListViewController {
+private extension ImagesListViewController {
+    func formatDateString(_ dateString: String) -> String? {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        inputFormatter.locale = Locale(identifier: "en_US_POSIX")
+        
+        if let date = inputFormatter.date(from: dateString) {
+            
+            let formattedString = dateFormatter.string(from: date)
+            return formattedString
+        } else {
+            return nil
+        }
+    }
+    
+    
     func updateTableViewAnimated() {
         let oldCount = photos.count
         let newCount = service.photos.count
@@ -49,8 +72,36 @@ extension ImagesListViewController {
                 IndexPath(row: i, section: 0)
             }
             photos = service.photos
-            
-            tableView.insertRows(at: indexPath, with: .automatic)
+            tableView.performBatchUpdates {
+                tableView.insertRows(at: indexPath, with: .automatic)
+            }
+        }
+    }
+    
+    func setIsLiked(isLiked: Bool, cell: ImagesListCell) {
+        if !isLiked {
+            cell.buttonLike.setImage(UIImage(named: "No active"), for: .normal)
+        } else {
+            cell.buttonLike.setImage(UIImage(named: "Active"), for: .normal)
+        }
+    }
+    
+    func configCell(cell: ImagesListCell, indexPath: IndexPath) {
+        cell.delegate = self
+        let photo = photos[indexPath.row]
+        let date = formatDateString(photo.createdAt)
+        cell.labelDate.text = date
+        cell.setIsLiked(photo.isLiked)
+        if let url = URL(string: photo.urls.full) {
+            let processor = RoundCornerImageProcessor(cornerRadius: 25)
+            cell.imagePoster.kf.indicatorType = .activity
+            cell.imagePoster.kf.setImage(with: url,
+                                         placeholder: UIImage(named: "loadImage"),
+                                         options: [.processor(processor)]
+            ) {[weak self] _ in
+                guard let self = self else { return }
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
         }
     }
 }
@@ -68,27 +119,8 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        //        imageListCell.configCell(for: imageListCell, with: indexPath, photosName: photosName)
-        let photo = photos[indexPath.row]
-        let model = PhotoViewModel(id: photo.id,
-                                   size: CGSize(width: photo.width, height: photo.height),
-                                   createdAt: Date(),
-                                   welcomeDescription: photo.description,
-                                   thumbImageURL: photo.urls.thumb,
-                                   largeImageURL: photo.urls.full,
-                                   isLiked: photo.isLiked)
+        configCell(cell: imageListCell, indexPath: indexPath)
         
-        if let url = URL(string: model.largeImageURL) {
-            let processor = RoundCornerImageProcessor(cornerRadius: 25)
-            imageListCell.imagePoster.kf.setImage(with: url,
-                                                  placeholder: UIImage(named: "loadImage"),
-                                                  options: [.processor(processor)]
-            ) {[weak self] _ in
-                guard let self = self else { return }
-                
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
-            }
-        }
         return imageListCell
     }
     
@@ -96,6 +128,32 @@ extension ImagesListViewController: UITableViewDataSource {
         if indexPath.row + 1 == photos.count {
             service.fetchPhotosNextPage()
         }
+    }
+}
+
+//MARK: - ImagesListCell Delegate
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photos[indexPath.row]
+        
+        UIBlockingProgressHUD.show()
+        
+        service.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] res in
+            guard let self = self else { return }
+            switch res {
+            case .success:
+                self.photos = self.service.photos
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+                cell.setIsLiked(self.photos[indexPath.row].isLiked)
+                UIBlockingProgressHUD.dismiss()
+            case .failure:
+                UIBlockingProgressHUD.dismiss()
+            }
+        }
+        
+    
+        self.tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
 
