@@ -132,6 +132,17 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func onExitButton() {
-        print("hello")
+        let model = AlertModel(title: "Пока, пока!",
+                               message: "Уверены что хотите выйти?",
+                               buttonText: "Да",
+                               buttonText2: "Нет"){
+            WebKitClean.clean()
+            OAuth2TokenStorage().removeToken()
+            let viewController = SplashViewController()
+            self.present(viewController, animated: true)
+        }
+        
+        let alert = AlertPresenter(delegate: self)
+        alert.showTwoAction(model: model)
     }
 }

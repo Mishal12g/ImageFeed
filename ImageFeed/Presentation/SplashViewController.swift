@@ -93,7 +93,8 @@ extension SplashViewController: AuthViewControllerDelegate {
                 print(error)
                 let model = AlertModel(title: "Что-то пошло не так(",
                                        message: "Не удалось войти в систему",
-                                       buttonText: "Ок") {}
+                                       buttonText: "Ок",
+                                       buttonText2: nil) {}
                 alert?.show(model: model)
                 
                 UIBlockingProgressHUD.dismiss()
