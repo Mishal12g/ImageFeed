@@ -94,10 +94,7 @@ final class ProfileViewController: UIViewController {
               let url = URL(string: profileImageUrl) else { return }
 
         let processor = RoundCornerImageProcessor(cornerRadius: 70)
-        ImageCache.default.clearDiskCache()
-        ImageCache.default.clearMemoryCache()
         
-        avatarImage.kf.indicatorType = .activity
         avatarImage.kf.setImage(with: url,
                                 placeholder: UIImage(named: "Person"),
                                 options: [.processor(processor),

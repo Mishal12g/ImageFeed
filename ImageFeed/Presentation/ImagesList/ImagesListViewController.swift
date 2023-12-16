@@ -88,19 +88,21 @@ private extension ImagesListViewController {
     
     func configCell(cell: ImagesListCell, indexPath: IndexPath) {
         cell.delegate = self
+        cell.setGradient(width: Int(cell.frame.width), height: Int(cell.frame.height))
         let photo = photos[indexPath.row]
         let date = formatDateString(photo.createdAt)
         cell.labelDate.text = date
         cell.setIsLiked(photo.isLiked)
         if let url = URL(string: photo.urls.full) {
             let processor = RoundCornerImageProcessor(cornerRadius: 25)
-            cell.imagePoster.kf.indicatorType = .activity
+            
             cell.imagePoster.kf.setImage(with: url,
                                          placeholder: UIImage(named: "loadImage"),
                                          options: [.processor(processor)]
             ) {[weak self] _ in
                 guard let self = self else { return }
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                cell.gradient.removeFromSuperlayer()
             }
         }
     }

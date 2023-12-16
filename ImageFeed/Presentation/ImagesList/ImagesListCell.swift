@@ -18,6 +18,7 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet weak var labelDate: UILabel!
     @IBOutlet weak var buttonLike: UIButton!
     @IBOutlet private weak var view: UIView!
+    var gradient = CAGradientLayer()
     
     //MARK: - Public Properties
     weak var delegate: ImagesListCellDelegate?
@@ -31,7 +32,6 @@ final class ImagesListCell: UITableViewCell {
         view.clipsToBounds = true
         view.layer.cornerRadius = 16
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        
         let gradient = CAGradientLayer()
         gradient.frame = view.bounds
         gradient.colors = [UIColor.ypGradientOne.cgColor, UIColor.ypGradientTwo.cgColor]
@@ -49,6 +49,28 @@ final class ImagesListCell: UITableViewCell {
 }
 
 extension ImagesListCell {
+    func setGradient(width: Int, height: Int) {
+        gradient.frame = CGRect(origin: .zero, size: CGSize(width: width, height: height))
+        gradient.locations = [0, 0.1, 0.3]
+        gradient.colors = [
+            UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor,
+            UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor,
+            UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor
+        ]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 0.5)
+        gradient.cornerRadius = CGFloat(16)
+        gradient.masksToBounds = true
+        
+        let gradientChangeAnimation = CABasicAnimation(keyPath: "locations")
+        gradientChangeAnimation.duration = 3.0
+        gradientChangeAnimation.repeatCount = .infinity
+        gradientChangeAnimation.fromValue = [0, 0.1, 0.3]
+        gradientChangeAnimation.toValue = [0, 0.8, 1]
+        gradient.add(gradientChangeAnimation, forKey: "locationsChange")
+        imagePoster.layer.addSublayer(gradient)
+    }
+    
     func setIsLiked(_ isLiked: Bool) {
         if !isLiked  {
             buttonLike.setImage(UIImage(named: "No active"), for: .normal)
