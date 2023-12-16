@@ -13,6 +13,11 @@ final class ProfileViewController: UIViewController {
     private let tokenStorage = OAuth2TokenStorage()
     private let profileSingleton = ProfileServiceImpl.shared.profile
     private var profileImageServiceObserver: NSObjectProtocol?
+    private var animationLayers = Set<CALayer>()
+    let gradientAvatar = CAGradientLayer()
+    let gradientName = CAGradientLayer()
+    let gradientMailLabel = CAGradientLayer()
+
     
     private let mailLabel: UILabel = {
         let Label = UILabel()
@@ -64,6 +69,14 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .ypBlack
         addSubviews()
+        
+        setGradient(width: 70, height: 70, gradient: gradientAvatar, radius: 35)
+        avatarImage.layer.addSublayer(gradientAvatar)
+        setGradient(width: 300, height: 25, gradient: gradientName, radius: 9)
+        fullName.layer.addSublayer(gradientName)
+        setGradient(width: 200, height: 25, gradient: gradientMailLabel, radius: 9)
+        mailLabel.layer.addSublayer(gradientMailLabel)
+        
         applyConstraints()
         setProfile()
         profileImageServiceObserver = NotificationCenter.default.addObserver(forName: ProfileImageServiceImpl.didhangeNotification,
@@ -79,14 +92,21 @@ final class ProfileViewController: UIViewController {
     private func updateAvatar() {
         guard let profileImageUrl = ProfileImageServiceImpl.shared.avatarUrl,
               let url = URL(string: profileImageUrl) else { return }
-        
+
         let processor = RoundCornerImageProcessor(cornerRadius: 70)
+        ImageCache.default.clearDiskCache()
+        ImageCache.default.clearMemoryCache()
         
         avatarImage.kf.indicatorType = .activity
         avatarImage.kf.setImage(with: url,
                                 placeholder: UIImage(named: "Person"),
                                 options: [.processor(processor),
-                                          .cacheSerializer(FormatIndicatedCacheSerializer.png)])
+                                          .cacheSerializer(FormatIndicatedCacheSerializer.png)]) { [weak self] _ in
+                                              guard let self = self else { return }
+                                              self.gradientAvatar.removeFromSuperlayer()
+                                              self.gradientName.removeFromSuperlayer()
+                                              self.gradientMailLabel.removeFromSuperlayer()
+                                          }
     }
     
     private func addSubviews(){
@@ -96,6 +116,28 @@ final class ProfileViewController: UIViewController {
         view.addSubview(statusLabel)
         view.addSubview(exitButton)
         
+    }
+    
+    private func setGradient(width: Int, height: Int, gradient: CAGradientLayer, radius: Int) {
+        gradient.frame = CGRect(origin: .zero, size: CGSize(width: width, height: height))
+        gradient.locations = [0, 0.1, 0.3]
+        gradient.colors = [
+            UIColor(red: 0.682, green: 0.686, blue: 0.706, alpha: 1).cgColor,
+            UIColor(red: 0.531, green: 0.533, blue: 0.553, alpha: 1).cgColor,
+            UIColor(red: 0.431, green: 0.433, blue: 0.453, alpha: 1).cgColor
+        ]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 0.5)
+        gradient.cornerRadius = CGFloat(radius)
+        gradient.masksToBounds = true
+        animationLayers.insert(gradient)
+        
+        let gradientChangeAnimation = CABasicAnimation(keyPath: "locations")
+        gradientChangeAnimation.duration = 1.0
+        gradientChangeAnimation.repeatCount = .infinity
+        gradientChangeAnimation.fromValue = [0, 0.1, 0.3]
+        gradientChangeAnimation.toValue = [0, 0.8, 1]
+        gradient.add(gradientChangeAnimation, forKey: "locationsChange")
     }
     
     private func applyConstraints() {
