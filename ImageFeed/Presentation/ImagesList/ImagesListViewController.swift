@@ -18,15 +18,14 @@ final class ImagesListViewController: UIViewController {
     private let showSingleImageIdentifier = "ShowSingleImage"
     private var imagesListServiceObserver: NSObjectProtocol?
     private let service = ImagesListService.shared
-    private var photos: [PhotoResult] = []
+    private var photos: [PhotoViewModel] = []
     
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd MMMM yyyy"
-        formatter.locale = Locale(identifier: "ru_RU")
+    static var dateFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withFullDate, .withDay, .withMonth, .withYear,]
+        
         return formatter
     }()
-    
     
     //MARK: - Overrides methods
     override func viewDidLoad() {
@@ -48,20 +47,15 @@ final class ImagesListViewController: UIViewController {
 
 //MARK: - For methods
 private extension ImagesListViewController {
-    func formatDateString(_ dateString: String) -> String? {
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        inputFormatter.locale = Locale(identifier: "en_US_POSIX")
-        
-        if let date = inputFormatter.date(from: dateString) {
-            
-            let formattedString = dateFormatter.string(from: date)
-            return formattedString
-        } else {
+    func formatDate(_ dateString: String) -> Date? {
+        let inputFormatter = ISO8601DateFormatter()
+        inputFormatter.formatOptions = [.withFullDate, .withMonth, .withYear]
+        guard let date = inputFormatter.date(from: dateString) else {
             return nil
         }
+        return date
+        
     }
-    
     
     func updateTableViewAnimated() {
         let oldCount = photos.count
@@ -71,11 +65,29 @@ private extension ImagesListViewController {
             let indexPath = (oldCount..<newCount).map { i in
                 IndexPath(row: i, section: 0)
             }
-            photos = service.photos
+            convert(photoResult: service.photos)
+            
             tableView.performBatchUpdates {
                 tableView.insertRows(at: indexPath, with: .automatic)
             }
         }
+    }
+    
+    func convert(photoResult: [PhotoResult]) {
+        var photos = [PhotoViewModel]()
+        photoResult.forEach { result in
+            let date = formatDate(result.createdAt)
+            let photoModel = PhotoViewModel(id: result.id,
+                                            size: CGSize(width: result.width, height: result.height),
+                                            createdAt: date,
+                                            welcomeDescription: result.description,
+                                            thumbImageURL: result.urls.thumb,
+                                            largeImageURL: result.urls.full,
+                                            isLiked: result.isLiked)
+            
+            photos.append(photoModel)
+        }
+        self.photos = photos
     }
     
     func setIsLiked(isLiked: Bool, cell: ImagesListCell) {
@@ -89,11 +101,15 @@ private extension ImagesListViewController {
     func configCell(cell: ImagesListCell, indexPath: IndexPath) {
         cell.delegate = self
         cell.setGradient(width: Int(cell.frame.width), height: Int(cell.frame.height))
+        
         let photo = photos[indexPath.row]
-        let date = formatDateString(photo.createdAt)
-        cell.labelDate.text = date
+        
+        guard let date = photo.createdAt else { return }
+        let dateString = ImagesListViewController.dateFormatter.string(from: date)
+        cell.labelDate.text = dateString
         cell.setIsLiked(photo.isLiked)
-        if let url = URL(string: photo.urls.full) {
+        
+        if let url = URL(string: photo.largeImageURL) {
             let processor = RoundCornerImageProcessor(cornerRadius: 25)
             
             cell.imagePoster.kf.setImage(with: url,
@@ -145,7 +161,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
             guard let self = self else { return }
             switch res {
             case .success:
-                self.photos = self.service.photos
+                self.convert(photoResult: self.service.photos)
                 tableView.reloadRows(at: [indexPath], with: .automatic)
                 cell.setIsLiked(self.photos[indexPath.row].isLiked)
                 UIBlockingProgressHUD.dismiss()
@@ -154,7 +170,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
             }
         }
         
-    
+        
         self.tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
@@ -189,7 +205,7 @@ extension ImagesListViewController {
         
         let photo = photos[indexPath.row]
         
-        guard let url = URL(string: photo.urls.full) else { return }
+        guard let url = URL(string: photo.largeImageURL) else { return }
         viewController.imageUrl = url
     }
 }
