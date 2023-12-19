@@ -20,11 +20,21 @@ final class ImagesListViewController: UIViewController {
     private let service = ImagesListService.shared
     private var photos: [PhotoViewModel] = []
     
-    static var dateFormatter: ISO8601DateFormatter = {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withFullDate, .withDay, .withMonth, .withYear,]
+    static var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.calendar = Calendar(identifier: .iso8601)
         
-        return formatter
+        return dateFormatter
+    }()
+    
+    static var outputDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        dateFormatter.calendar = Calendar(identifier: .iso8601)
+        dateFormatter.locale = Locale(identifier: "ru_RU")
+        
+        return dateFormatter
     }()
     
     //MARK: - Overrides methods
@@ -47,17 +57,6 @@ final class ImagesListViewController: UIViewController {
 
 //MARK: - For methods
 private extension ImagesListViewController {
-    func formatDate(_ dateString: String) -> Date? {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMMM yyyy"
-        dateFormatter.calendar = Calendar(identifier: .iso8601)
-        
-        guard let date = dateFormatter.date(from: dateString) else {
-            return nil
-        }
-        return date
-    }
     
     func updateTableViewAnimated() {
         let oldCount = photos.count
@@ -78,7 +77,7 @@ private extension ImagesListViewController {
     func convert(photoResult: [PhotoResult]) {
         var photos = [PhotoViewModel]()
         photoResult.forEach { result in
-            let date = formatDate(result.createdAt)
+            let date = ImagesListViewController.dateFormatter.date(from: result.createdAt)
             let photoModel = PhotoViewModel(id: result.id,
                                             size: CGSize(width: result.width, height: result.height),
                                             createdAt: date,
@@ -107,8 +106,11 @@ private extension ImagesListViewController {
         let photo = photos[indexPath.row]
         
         guard let date = photo.createdAt else { return }
-        let dateString = ImagesListViewController.dateFormatter.string(from: date)
+        
+        let dateString = ImagesListViewController.outputDateFormatter.string(from: date)
         cell.labelDate.text = dateString
+        
+        
         cell.setIsLiked(photo.isLiked)
         
         if let url = URL(string: photo.largeImageURL) {
