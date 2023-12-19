@@ -8,24 +8,12 @@
 import UIKit
 
 protocol AlertPresenterProtocol {
-    func show(model: AlertModel?)
-    func showTwoAction(model: AlertModel?)
+    static func show(model: AlertModel?,  controller: UIViewController)
+    static func showTwoAction(model: AlertModel?, controller: UIViewController)
 }
 
-protocol AlertDelegate: AnyObject {
-    func show(model: AlertModel?)
-}
-
-final class AlertPresenter {
-    weak var delegate: UIViewController?
-    
-    init(delegate: UIViewController) {
-        self.delegate = delegate
-    }
-}
-
-extension AlertPresenter: AlertDelegate, AlertPresenterProtocol {
-    func showTwoAction(model: AlertModel?) {
+final class AlertPresenter: AlertPresenterProtocol {
+    static func showTwoAction(model: AlertModel?,  controller: UIViewController) {
         guard let model = model else { return }
         let alert = UIAlertController(title: model.title,
                                       message: model.message,
@@ -40,10 +28,10 @@ extension AlertPresenter: AlertDelegate, AlertPresenterProtocol {
                                       style: .default)
         alert.addAction(action)
         alert.addAction(actionTwo)
-        delegate?.present(alert, animated: true)
+        controller.present(alert, animated: true)
     }
     
-    func show(model: AlertModel?) {
+    static func show(model: AlertModel?,  controller: UIViewController) {
         guard let model = model else { return }
         let alert = UIAlertController(title: model.title,
                                       message: model.message,
@@ -55,6 +43,6 @@ extension AlertPresenter: AlertDelegate, AlertPresenterProtocol {
         }
         
         alert.addAction(action)
-        delegate?.present(alert, animated: true)
+        controller.present(alert, animated: true)
     }
 }

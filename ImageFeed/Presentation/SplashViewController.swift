@@ -16,7 +16,6 @@ final class SplashViewController: UIViewController {
     
     private let profileImageService = ProfileImageServiceImpl.shared
     
-    private var alert: AlertDelegate?
     private var splashView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 76 , height: 75))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -95,7 +94,7 @@ extension SplashViewController: AuthViewControllerDelegate {
                                        message: "Не удалось войти в систему",
                                        buttonText: "Ок",
                                        buttonText2: nil) {}
-                alert?.show(model: model)
+                AlertPresenter.show(model: model, controller: self)
                 
                 UIBlockingProgressHUD.dismiss()
                 break

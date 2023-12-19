@@ -17,7 +17,7 @@ final class ProfileViewController: UIViewController {
     let gradientAvatar = CAGradientLayer()
     let gradientName = CAGradientLayer()
     let gradientMailLabel = CAGradientLayer()
-
+    
     
     private let mailLabel: UILabel = {
         let Label = UILabel()
@@ -92,7 +92,7 @@ final class ProfileViewController: UIViewController {
     private func updateAvatar() {
         guard let profileImageUrl = ProfileImageServiceImpl.shared.avatarUrl,
               let url = URL(string: profileImageUrl) else { return }
-
+        
         let processor = RoundCornerImageProcessor(cornerRadius: 70)
         
         avatarImage.kf.setImage(with: url,
@@ -177,11 +177,13 @@ final class ProfileViewController: UIViewController {
                                buttonText2: "Нет"){
             WebKitClean.clean()
             OAuth2TokenStorage().removeToken()
-            let viewController = SplashViewController()
-            self.present(viewController, animated: true)
+            let splashViewController = SplashViewController()
+            
+            if let mainWindow = UIApplication.shared.windows.first {
+                mainWindow.rootViewController = splashViewController
+            }
         }
         
-        let alert = AlertPresenter(delegate: self)
-        alert.showTwoAction(model: model)
+        AlertPresenter.showTwoAction(model: model, controller: self)
     }
 }

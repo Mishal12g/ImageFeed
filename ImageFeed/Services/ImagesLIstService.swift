@@ -14,8 +14,7 @@ class ImagesListService {
     private let token = OAuth2TokenStorage().token
     private (set) var photos: [PhotoResult] = []
     private var lastLoadedPage: Int? = nil
-    private var task: URLSessionTask?
-    private var fetchSemaphore = DispatchSemaphore(value: 1)
+    private var prevTask: URLSessionTask?
     private var nextPage: Int {
         if lastLoadedPage == nil {
             lastLoadedPage = 1
@@ -34,11 +33,7 @@ class ImagesListService {
         
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        if isLike {
-            request.httpMethod = "POST"
-        } else {
-            request.httpMethod = "DELETE"
-        }
+        request.httpMethod = isLike ? "POST" : "DELETE"
         
         let task = URLSession.shared.dataTask(with: request) { _, response, error in
             if let error = error {
@@ -79,40 +74,36 @@ class ImagesListService {
     }
     
     func fetchPhotosNextPage() {
-        if fetchSemaphore.wait(timeout: .now()) == .success {
-            guard task == nil else {
-                fetchSemaphore.signal()
-                return
-            }
-            
-            guard let url = URL(string: "https://api.unsplash.com/photos?page=\(nextPage)&per_page=10"),
-                  let token = token else {
-                fetchSemaphore.signal()
-                return }
-            
-            var request = URLRequest(url: url)
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-            
-            task?.cancel()
-            
-            task = URLSession.shared.objectTask(for: request) { (result: Result<[PhotoResult], Error>) in
-                defer {
-                    self.fetchSemaphore.signal()
-                    self.task = nil
-                }
-                
-                switch result {
-                case .success(let photosResult):
-                    self.photos += photosResult
-                    NotificationCenter.default.post(name: ImagesListService.didChangeNotification,
-                                                    object: self,
-                                                    userInfo: ["Photos" : self.photos])
-                case .failure(let error):
-                    print(error)
-                }
-            }
-            
-            task?.resume()
+        if prevTask != nil {
+            return
         }
+        
+        guard let url = URL(string: "https://api.unsplash.com/photos?page=\(nextPage)&per_page=10"),
+              let token = token else {
+            prevTask = nil
+            return }
+        
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        prevTask?.cancel()
+        
+        prevTask = URLSession.shared.objectTask(for: request) { (result: Result<[PhotoResult], Error>) in
+            defer {
+                self.prevTask = nil
+            }
+            
+            switch result {
+            case .success(let photosResult):
+                self.photos += photosResult
+                NotificationCenter.default.post(name: ImagesListService.didChangeNotification,
+                                                object: self,
+                                                userInfo: ["Photos" : self.photos])
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+        prevTask?.resume()
     }
 }

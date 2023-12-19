@@ -48,13 +48,15 @@ final class ImagesListViewController: UIViewController {
 //MARK: - For methods
 private extension ImagesListViewController {
     func formatDate(_ dateString: String) -> Date? {
-        let inputFormatter = ISO8601DateFormatter()
-        inputFormatter.formatOptions = [.withFullDate, .withMonth, .withYear]
-        guard let date = inputFormatter.date(from: dateString) else {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        dateFormatter.calendar = Calendar(identifier: .iso8601)
+        
+        guard let date = dateFormatter.date(from: dateString) else {
             return nil
         }
         return date
-        
     }
     
     func updateTableViewAnimated() {
@@ -101,7 +103,7 @@ private extension ImagesListViewController {
     func configCell(cell: ImagesListCell, indexPath: IndexPath) {
         cell.delegate = self
         cell.setGradient(width: Int(cell.frame.width), height: Int(cell.frame.height))
-        
+        cell.imagePoster.layer.cornerRadius = 16
         let photo = photos[indexPath.row]
         
         guard let date = photo.createdAt else { return }
@@ -110,7 +112,7 @@ private extension ImagesListViewController {
         cell.setIsLiked(photo.isLiked)
         
         if let url = URL(string: photo.largeImageURL) {
-            let processor = RoundCornerImageProcessor(cornerRadius: 25)
+            let processor = RoundCornerImageProcessor(cornerRadius: 16)
             
             cell.imagePoster.kf.setImage(with: url,
                                          placeholder: UIImage(named: "loadImage"),
