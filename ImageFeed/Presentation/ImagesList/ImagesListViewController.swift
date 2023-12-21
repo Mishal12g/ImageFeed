@@ -66,6 +66,7 @@ private extension ImagesListViewController {
             let indexPath = (oldCount..<newCount).map { i in
                 IndexPath(row: i, section: 0)
             }
+
             convert(photoResult: service.photos)
             
             tableView.performBatchUpdates {

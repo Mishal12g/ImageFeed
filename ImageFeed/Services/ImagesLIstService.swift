@@ -15,15 +15,7 @@ class ImagesListService {
     private (set) var photos: [PhotoResult] = []
     private var lastLoadedPage: Int? = nil
     private var prevTask: URLSessionTask?
-    private var nextPage: Int {
-        if lastLoadedPage == nil {
-            lastLoadedPage = 1
-            return lastLoadedPage ?? 1
-        } else {
-            lastLoadedPage! += 1
-            return lastLoadedPage ?? 1
-        }
-    }
+    private var nextPage = 0
     
     private init() {}
     
@@ -74,9 +66,11 @@ class ImagesListService {
     }
     
     func fetchPhotosNextPage() {
-        if prevTask != nil {
+        guard prevTask == nil else {
             return
         }
+        let nextPage = lastLoadedPage == nil ? 1 : lastLoadedPage! + 1
+        lastLoadedPage = nextPage
         
         guard let url = URL(string: "https://api.unsplash.com/photos?page=\(nextPage)&per_page=10"),
               let token = token else {
