@@ -7,20 +7,31 @@
 
 import UIKit
 
-protocol AlertDelegate: AnyObject {
-    func show(model: AlertModel?)
+protocol AlertPresenterProtocol {
+    static func show(model: AlertModel?,  controller: UIViewController)
+    static func showTwoAction(model: AlertModel?, controller: UIViewController)
 }
 
-final class AlertPresenter {
-    weak var delegate: UIViewController?
-    
-    init(delegate: UIViewController) {
-        self.delegate = delegate
+final class AlertPresenter: AlertPresenterProtocol {
+    static func showTwoAction(model: AlertModel?,  controller: UIViewController) {
+        guard let model = model else { return }
+        let alert = UIAlertController(title: model.title,
+                                      message: model.message,
+                                      preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: model.buttonText,
+                                   style: .default) { _ in
+            model.completion()
+        }
+        
+        let actionTwo = UIAlertAction(title: model.buttonText2,
+                                      style: .default)
+        alert.addAction(action)
+        alert.addAction(actionTwo)
+        controller.present(alert, animated: true)
     }
-}
-
-extension AlertPresenter: AlertDelegate {
-    func show(model: AlertModel?) {
+    
+    static func show(model: AlertModel?,  controller: UIViewController) {
         guard let model = model else { return }
         let alert = UIAlertController(title: model.title,
                                       message: model.message,
@@ -32,6 +43,6 @@ extension AlertPresenter: AlertDelegate {
         }
         
         alert.addAction(action)
-        delegate?.present(alert, animated: true)
+        controller.present(alert, animated: true)
     }
 }

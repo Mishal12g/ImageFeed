@@ -11,12 +11,11 @@ import ProgressHUD
 final class SplashViewController: UIViewController {
     //MARK: - Privates properties
     private let oauth2Service = OAuth2ServiceImpl()
-    private let profileService = ProfileServiceImpl()
+    private let profileService = ProfileServiceImpl.shared
     private let storage = OAuth2TokenStorage()
     
     private let profileImageService = ProfileImageServiceImpl.shared
     
-    private var alert: AlertDelegate?
     private var splashView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 76 , height: 75))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -93,8 +92,9 @@ extension SplashViewController: AuthViewControllerDelegate {
                 print(error)
                 let model = AlertModel(title: "Что-то пошло не так(",
                                        message: "Не удалось войти в систему",
-                                       buttonText: "Ок") {}
-                alert?.show(model: model)
+                                       buttonText: "Ок",
+                                       buttonText2: nil) {}
+                AlertPresenter.show(model: model, controller: self)
                 
                 UIBlockingProgressHUD.dismiss()
                 break
