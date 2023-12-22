@@ -59,11 +59,6 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
 
 extension WebViewViewController {
     //MARK: - Privates Methods
-    func updateProgress() {
-        progressView.progress = Float(webView.estimatedProgress)
-        progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
-    }
-    
     func setProgressValue(newValue: Float) {
         progressView.progress = newValue
     }
