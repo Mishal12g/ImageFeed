@@ -32,7 +32,7 @@ class AuthHelper: AuthHelperProtocol {
         return codeItem.value
     }
     
-    private func authURL() -> URL? {
+    func authURL() -> URL? {
         guard var urlComponents = URLComponents(string: configuration.unsplashAuthorizeURLString) else { return nil }
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: configuration.accessKey),
