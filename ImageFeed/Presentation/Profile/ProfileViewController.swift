@@ -8,7 +8,12 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
+protocol ProfileViewControllerProtocol {
+    var presenter: ProfilePresenterProtocol? { get set }
+    func onExitButton()
+}
+
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
     //MARK: - Privates properties
     private let tokenStorage = OAuth2TokenStorage()
     private let profileSingleton = ProfileServiceImpl.shared.profile
@@ -17,7 +22,7 @@ final class ProfileViewController: UIViewController {
     let gradientAvatar = CAGradientLayer()
     let gradientName = CAGradientLayer()
     let gradientMailLabel = CAGradientLayer()
-    
+    var presenter: ProfilePresenterProtocol?
     
     private let mailLabel: UILabel = {
         let Label = UILabel()
@@ -86,6 +91,11 @@ final class ProfileViewController: UIViewController {
             self.updateAvatar()
         }
         updateAvatar()
+    }
+    //MARK: - Public methods
+    func configure(_ presenter: ProfilePresenterProtocol) {
+        self.presenter = presenter
+        self.presenter?.view = self
     }
     
     //MARK: - Privates methods
@@ -170,19 +180,8 @@ final class ProfileViewController: UIViewController {
         mailLabel.text = profileSingleton?.loginName
     }
     
-    @objc private func onExitButton() {
-        let model = AlertModel(title: "Пока, пока!",
-                               message: "Уверены что хотите выйти?",
-                               buttonText: "Да",
-                               buttonText2: "Нет"){
-            WebKitClean.clean()
-            OAuth2TokenStorage().removeToken()
-            let splashViewController = SplashViewController()
-            
-            if let mainWindow = UIApplication.shared.windows.first {
-                mainWindow.rootViewController = splashViewController
-            }
-        }
+    @objc func onExitButton() {
+        let model = presenter?.exitProfileAction()
         
         AlertPresenter.showTwoAction(model: model, controller: self)
     }
