@@ -29,7 +29,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
     func convert(photoResult: [PhotoResult]) {
         var photos = [PhotoViewModel]()
         photoResult.forEach { result in
-            let date = DateFormattes.dateFormatter.date(from: result.createdAt)
+            let date = DateFormattesHelper.dateFormatter.date(from: result.createdAt)
             let photoModel = PhotoViewModel(id: result.id,
                                             size: CGSize(width: result.width, height: result.height),
                                             createdAt: date,

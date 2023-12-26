@@ -72,7 +72,7 @@ extension ImagesListViewController {
         
         let photo = presenter.photos[indexPath.row]
         guard let date = photo.createdAt else { return }
-        let dateString = DateFormattes.outputDateFormatter.string(from: date)
+        let dateString = DateFormattesHelper.outputDateFormatter.string(from: date)
         cell.labelDate.text = dateString
         cell.setIsLiked(photo.isLiked)
         

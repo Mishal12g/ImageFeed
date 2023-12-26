@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DateFormattes {
+struct DateFormattesHelper {
     static var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"

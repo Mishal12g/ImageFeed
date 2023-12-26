@@ -37,7 +37,7 @@
 		87D0F3582B36F0B200B435D8 /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D0F3572B36F0B200B435D8 /* ProfilePresenter.swift */; };
 		87D0F35A2B36F96800B435D8 /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D0F3592B36F96800B435D8 /* ProfileTests.swift */; };
 		87D0F35C2B370D0800B435D8 /* ImagesListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D0F35B2B370D0800B435D8 /* ImagesListPresenter.swift */; };
-		87D0F35E2B37182400B435D8 /* DateFormattes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D0F35D2B37182400B435D8 /* DateFormattes.swift */; };
+		87D0F35E2B37182400B435D8 /* DateFormattesHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D0F35D2B37182400B435D8 /* DateFormattesHelper.swift */; };
 		87D0F3602B395C2C00B435D8 /* ImagesListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D0F35F2B395C2C00B435D8 /* ImagesListTests.swift */; };
 		87D0F3682B396B0D00B435D8 /* ImageFeedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D0F3672B396B0D00B435D8 /* ImageFeedUITests.swift */; };
 		87D0F36A2B396B0D00B435D8 /* ImageFeedUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D0F3692B396B0D00B435D8 /* ImageFeedUITestsLaunchTests.swift */; };
@@ -101,7 +101,7 @@
 		87D0F3572B36F0B200B435D8 /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
 		87D0F3592B36F96800B435D8 /* ProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
 		87D0F35B2B370D0800B435D8 /* ImagesListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListPresenter.swift; sourceTree = "<group>"; };
-		87D0F35D2B37182400B435D8 /* DateFormattes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormattes.swift; sourceTree = "<group>"; };
+		87D0F35D2B37182400B435D8 /* DateFormattesHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormattesHelper.swift; sourceTree = "<group>"; };
 		87D0F35F2B395C2C00B435D8 /* ImagesListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListTests.swift; sourceTree = "<group>"; };
 		87D0F3652B396B0D00B435D8 /* ImageFeedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageFeedUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		87D0F3672B396B0D00B435D8 /* ImageFeedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFeedUITests.swift; sourceTree = "<group>"; };
@@ -258,7 +258,6 @@
 				8794BA9D2AE2B53600EC5E6E /* Resources */,
 				87BC74242AD02C2C009C2EE9 /* AppDelegate.swift */,
 				87BC74262AD02C2C009C2EE9 /* SceneDelegate.swift */,
-				87D0F35D2B37182400B435D8 /* DateFormattes.swift */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -285,6 +284,7 @@
 		87D595C22B17492500820633 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				87D0F35D2B37182400B435D8 /* DateFormattesHelper.swift */,
 				87D595C32B17494B00820633 /* UrlSession+Extensions.swift */,
 			);
 			path = Helpers;
@@ -455,7 +455,7 @@
 				87D595C42B17494B00820633 /* UrlSession+Extensions.swift in Sources */,
 				87E2CF0E2B1DDA8000B52E03 /* PhotoResult.swift in Sources */,
 				87D595C62B175AE600820633 /* AlertPresenter.swift in Sources */,
-				87D0F35E2B37182400B435D8 /* DateFormattes.swift in Sources */,
+				87D0F35E2B37182400B435D8 /* DateFormattesHelper.swift in Sources */,
 				87009A2F2B108F950039B854 /* ProfileResult.swift in Sources */,
 				872E13722B2AE1AB00146068 /* WebKitClean.swift in Sources */,
 				87D0F3492B35C67700B435D8 /* AuthHelper.swift in Sources */,
