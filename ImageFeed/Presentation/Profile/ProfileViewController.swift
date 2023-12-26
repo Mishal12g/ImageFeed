@@ -74,7 +74,9 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         super.viewDidLoad()
         view.backgroundColor = .ypBlack
         addSubviews()
-        
+        mailLabel.accessibilityIdentifier = "mail"
+        fullName.accessibilityIdentifier = "Fullname"
+        exitButton.accessibilityIdentifier = "ExitButton"
         setGradient(width: 70, height: 70, gradient: gradientAvatar, radius: 35)
         avatarImage.layer.addSublayer(gradientAvatar)
         setGradient(width: 300, height: 25, gradient: gradientName, radius: 9)
