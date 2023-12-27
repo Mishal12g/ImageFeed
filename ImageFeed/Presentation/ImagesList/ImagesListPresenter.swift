@@ -35,6 +35,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
                                             createdAt: date,
                                             welcomeDescription: result.description,
                                             thumbImageURL: result.urls.thumb,
+                                            mediumImageURL: result.urls.small,
                                             largeImageURL: result.urls.full,
                                             isLiked: result.isLiked)
             

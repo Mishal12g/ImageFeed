@@ -76,7 +76,7 @@ extension ImagesListViewController {
         cell.labelDate.text = dateString
         cell.setIsLiked(photo.isLiked)
         
-        if let url = URL(string: photo.largeImageURL) {
+        if let url = URL(string: photo.mediumImageURL) {
             let processor = RoundCornerImageProcessor(cornerRadius: 16)
             
             cell.imagePoster.kf.setImage(with: url,
