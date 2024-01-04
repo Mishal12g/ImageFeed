@@ -18,6 +18,7 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet weak var labelDate: UILabel!
     @IBOutlet weak var buttonLike: UIButton!
     @IBOutlet private weak var view: UIView!
+    
     var gradient = CAGradientLayer()
     
     //MARK: - Public Properties

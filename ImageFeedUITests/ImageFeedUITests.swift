@@ -3,6 +3,8 @@ import XCTest
 
 final class ImageFeedUITests: XCTestCase {
     private let app = XCUIApplication()
+    private let login = ""
+    private let password = ""
     
     override func setUpWithError() throws {
         continueAfterFailure = false
@@ -19,7 +21,7 @@ final class ImageFeedUITests: XCTestCase {
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
         
         loginTextField.tap()
-        loginTextField.typeText("")
+        loginTextField.typeText(login)
         sleep(4)
         webView.swipeUp()
         app.toolbars.buttons["Done"].tap()
@@ -27,7 +29,7 @@ final class ImageFeedUITests: XCTestCase {
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         passwordTextField.tap()
-        passwordTextField.typeText("")
+        passwordTextField.typeText(password)
         sleep(4)
         webView.swipeUp()
         app.toolbars.buttons["Done"].tap()
@@ -41,7 +43,6 @@ final class ImageFeedUITests: XCTestCase {
     }
     
     func testFeed() throws {
-        // Подождать, пока открывается и загружается экран ленты
         let tablesQuery = app.tables
         
         let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
@@ -73,5 +74,6 @@ final class ImageFeedUITests: XCTestCase {
         
         app.buttons["ExitButton"].tap()
         app.alerts["bye bye"].scrollViews.otherElements.buttons["Yes"].tap()
+        sleep(3)
     }
 }

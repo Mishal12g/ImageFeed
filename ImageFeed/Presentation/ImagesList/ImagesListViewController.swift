@@ -133,7 +133,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
             case .success:
                 guard let presenter = self.presenter else { return }
                 presenter.convert(photoResult: self.service.photos)
-                tableView.reloadRows(at: [indexPath], with: .automatic)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
                 cell.setIsLiked(presenter.photos[indexPath.row].isLiked)
                 UIBlockingProgressHUD.dismiss()
             case .failure:

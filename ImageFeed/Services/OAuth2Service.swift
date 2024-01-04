@@ -43,9 +43,9 @@ private func makeRequest(code: String) -> URLRequest {
     }
     
     urlComponents.queryItems = [
-        URLQueryItem(name: "client_id", value: AccessKey),
-        URLQueryItem(name: "client_secret", value: SecretKey),
-        URLQueryItem(name: "redirect_uri", value: RedirectURI),
+        URLQueryItem(name: "client_id", value: Constaints.accessKey),
+        URLQueryItem(name: "client_secret", value: Constaints.secretKey),
+        URLQueryItem(name: "redirect_uri", value: Constaints.redirectURI),
         URLQueryItem(name: "code", value: code),
         URLQueryItem(name: "grant_type", value: "authorization_code")
     ]

@@ -1,11 +1,13 @@
 import Foundation
 
-let AccessKey = "5IS-aMFDyyWSiwCwIPFh66F6IxIo78RYds1myrkvNLQ"
-let SecretKey = "IrxGwL0Zm_LmMOn_PW-CIUwky34daJozoJdNSHWKPAU"
-let RedirectURI = "urn:ietf:wg:oauth:2.0:oob"
-let AccessScope = "public+read_user+write_likes"
-let DefaultBaseURL = URL(string: "https://api.unsplash.com/")!
-let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+enum Constaints {
+    static let accessKey = "5IS-aMFDyyWSiwCwIPFh66F6IxIo78RYds1myrkvNLQ"
+    static let secretKey = "IrxGwL0Zm_LmMOn_PW-CIUwky34daJozoJdNSHWKPAU"
+    static let redirectURI = "urn:ietf:wg:oauth:2.0:oob"
+    static let accessScope = "public+read_user+write_likes"
+    static let defaultBaseURL = URL(string: "https://api.unsplash.com/")!
+    static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+}
 
 struct AuthConfiguration {
     let accessKey: String
@@ -14,22 +16,13 @@ struct AuthConfiguration {
     let accessScope: String
     let defaultBaseURL: URL
     let unsplashAuthorizeURLString: String
-    
-    init(accessKey: String, secretKey: String, redirectUri: String, accessScope: String, defaultBaseURL: URL, unsplashAuthorizeURLString: String) {
-        self.accessKey = accessKey
-        self.secretKey = secretKey
-        self.redirectUri = redirectUri
-        self.accessScope = accessScope
-        self.defaultBaseURL = defaultBaseURL
-        self.unsplashAuthorizeURLString = unsplashAuthorizeURLString
-    }
-    
+        
     static let standart: AuthConfiguration = {
-        return AuthConfiguration(accessKey: AccessKey,
-                                 secretKey: SecretKey,
-                                 redirectUri: RedirectURI,
-                                 accessScope: AccessScope,
-                                 defaultBaseURL: DefaultBaseURL,
-                                 unsplashAuthorizeURLString: UnsplashAuthorizeURLString)
+        return AuthConfiguration(accessKey: Constaints.accessKey,
+                                 secretKey: Constaints.secretKey,
+                                 redirectUri: Constaints.redirectURI,
+                                 accessScope: Constaints.accessScope,
+                                 defaultBaseURL: Constaints.defaultBaseURL,
+                                 unsplashAuthorizeURLString: Constaints.unsplashAuthorizeURLString)
     }()
 }
