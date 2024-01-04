@@ -13,6 +13,7 @@ struct PhotoViewModel {
     let createdAt: Date?
     let welcomeDescription: String?
     let thumbImageURL: String
+    let mediumImageURL: String
     let largeImageURL: String
     let isLiked: Bool
 }

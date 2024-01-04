@@ -18,12 +18,12 @@ final class AlertPresenter: AlertPresenterProtocol {
         let alert = UIAlertController(title: model.title,
                                       message: model.message,
                                       preferredStyle: .alert)
-        
+        alert.view.accessibilityIdentifier = "bye bye"
         let action = UIAlertAction(title: model.buttonText,
                                    style: .default) { _ in
             model.completion()
         }
-        
+        action.accessibilityIdentifier = "Yes"
         let actionTwo = UIAlertAction(title: model.buttonText2,
                                       style: .default)
         alert.addAction(action)
